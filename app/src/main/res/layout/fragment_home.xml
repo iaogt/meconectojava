@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingVertical="15dp">
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/btn_star" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="TODO"
+                android:scaleType="centerInside"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/header" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="134dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_0"
+                    android:contentDescription="@string/txtGrooming"
+                    android:onClick="enviarAListado"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/groming" />
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_0"
+                    android:contentDescription="@string/txtSexting"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/sexting" />
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_0"
+                    android:contentDescription="@string/txtSextortion"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/sextortion" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="200dp"
+                android:contentDescription="@string/txtAvatar"
+                android:scaleType="centerInside"
+                android:src="@drawable/avatar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_0"
+                    android:contentDescription="@string/txtGrooming"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/groming" />
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_0"
+                    android:contentDescription="@string/txtSexting"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/sexting" />
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_width="50dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/circle_0"
+                    android:contentDescription="@string/txtSextortion"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/sextortion" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

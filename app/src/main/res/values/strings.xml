@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">MeConecto</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Logros</string>
+    <string name="title_notifications">Noticias</string>
+    <string name="title_amigos">Amigos</string>
+    <string name="title_ranking">Ranking</string>
+    <string name="txtGrooming">Grooming</string>
+    <string name="txtSexting">Sexting</string>
+    <string name="txtSextortion">Sextortion</string>
+    <string name="txtAvatar">Avatar</string>
+    <string name="txtDemoTitle">Grooming</string>
+    <string name="txtItem">Item texto</string>
+    <string name="title_activity_lista_dinamicas">ListaDinamicas</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="puntos">Puntos</string>
+    <string name="txtDemo">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id facilisis lectus. Ut vel ipsum fringilla, sodales sem ac, laoreet magna. Maecenas augue nisl, imperdiet eu lacus sed, tempor faucibus lectus. Pellentesque vestibulum cursus venenatis. Duis justo nulla, condimentum consectetur sem eget, cursus molestie nisi. Aliquam mattis est id risus volutpat accumsan. Maecenas tincidunt nulla in hendrerit egestas. Aliquam erat volutpat. Integer vehicula gravida elementum.</string>
+</resources>
