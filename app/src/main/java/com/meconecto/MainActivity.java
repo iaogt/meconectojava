@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
     private HomeViewModel homeViewModel;
 
+    public static final String APP_CONFIG = "com.meconecto.APP_CONFIG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,13 +148,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refrescaHome(){
-        homeViewModel.setmText(userGData.punteo.toString());
+        homeViewModel.setmText(userGData);
         System.out.println("Actualiza punteo:");
         System.out.println(userGData.punteo.toString());
     }
 
     public void enviarAListado(View view){
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
+        intent.putExtra(APP_CONFIG,config.getCategory("cyberbullying"));
         startActivity(intent);
     }
 

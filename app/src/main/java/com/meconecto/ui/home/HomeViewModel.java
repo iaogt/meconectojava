@@ -4,20 +4,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.meconecto.data.UserGameData;
+
 public class HomeViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<UserGameData> userGData;
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        userGData = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<UserGameData> getuserGData() {
+        return userGData;
     }
 
-    public void setmText(String t){
-        mText.setValue(t);
+    public void setmText(UserGameData t){
+        userGData.setValue(t);
     }
 }

@@ -1,11 +1,12 @@
 package com.meconecto.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AppConfiguration {
+public class AppConfiguration implements Serializable {
     private Long version;
     private HashMap<String,Categoria> categorias;
 
@@ -25,5 +26,9 @@ public class AppConfiguration {
             this.categorias.put(entry.getKey(),c);
         }
         //this.categorias = categorias;
+    }
+
+    public Categoria getCategory(String catName){
+        return categorias.get(catName);
     }
 }

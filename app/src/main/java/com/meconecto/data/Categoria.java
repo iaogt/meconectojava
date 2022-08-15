@@ -1,11 +1,12 @@
 package com.meconecto.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Categoria {
+public class Categoria implements Serializable {
     private String nombre;
     private HashMap<String,Actividad> actividades;
 
@@ -26,5 +27,9 @@ public class Categoria {
             a.setDesc((String)vals.get("desc"));
             this.actividades.put(entry.getKey(),a);
         }
+    }
+
+    public HashMap<String,Actividad> getActividades(){
+        return actividades;
     }
 }

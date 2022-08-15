@@ -1,6 +1,8 @@
 package com.meconecto.data;
 
-public class Actividad {
+import java.io.Serializable;
+
+public class Actividad implements Serializable {
     private String titulo;
     private String desc;
     private Integer exito;
@@ -17,8 +19,16 @@ public class Actividad {
         this.titulo = titulo;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 
     public void setExito(Integer exito) {

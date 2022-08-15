@@ -9,15 +9,27 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.meconecto.ListaDinamicas;
 import com.meconecto.MainActivity;
+import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+
+    TextView labelPunteo;
+
+    class PunteoObserver implements Observer {
+        @Override
+        public void onChanged(Object o) {
+            UserGameData uGD = (UserGameData)o;
+            labelPunteo.setText(uGD.punteo.toString());
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -27,8 +39,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textView2;
-        homeViewModel.getText().observe(getViewLifecycleOwner(),textView::setText);
+        labelPunteo = binding.textView2;
+        homeViewModel.getuserGData().observe(getViewLifecycleOwner(), new PunteoObserver());
 
         return root;
     }

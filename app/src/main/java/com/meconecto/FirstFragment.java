@@ -7,20 +7,42 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.meconecto.data.Actividad;
+import com.meconecto.data.AppConfiguration;
+import com.meconecto.data.Categoria;
 import com.meconecto.databinding.FragmentFirstBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FirstFragment extends Fragment {
     private FirebaseAnalytics mFirebaseAnalytics;
+
+    private FirstFragmentModel firstViewModel;
 
     private FragmentFirstBinding binding;
     RecyclerView lista;
     RecyclerView.LayoutManager layoutManager;
 
+    private List<Actividad> datos;
+
+
+    class DatosObserver implements Observer {
+        @Override
+        public void onChanged(Object o) {
+            Categoria c = (Categoria) o;
+            for(Actividad a: c.getActividades().values()){
+                datos.add(a);
+            }
+        }
+    }
 
     @Override
     public View onCreateView(
@@ -36,15 +58,18 @@ public class FirstFragment extends Fragment {
         binding = FragmentFirstBinding.inflate(inflater, container, false);
         layoutManager = new LinearLayoutManager(getContext());
 
-        lista = binding.listadinamicas;
-lista.setLayoutManager((layoutManager));
-        String[] datos = {"Título de primera actividad","Título de segunda actividad"};
+        datos = new ArrayList<>();
 
+        firstViewModel = new ViewModelProvider(requireActivity()).get(FirstFragmentModel.class);
+        firstViewModel.getCategory().observe(getViewLifecycleOwner(),new DatosObserver());
+
+        lista = binding.listadinamicas;
+        lista.setLayoutManager((layoutManager));
 
         lista.setAdapter(new CustomAdapter(datos, new CustomAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String item) {
-                System.out.println("Dio click a la fila "+item);
+            public void onItemClick(Actividad a) {
+                System.out.println("Dio click a la fila "+a.getTitulo());
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }

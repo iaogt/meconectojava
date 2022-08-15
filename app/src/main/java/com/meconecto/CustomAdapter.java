@@ -7,16 +7,20 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.meconecto.data.Actividad;
+
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
 
     public interface OnItemClickListener {
-        void onItemClick(String item);
+        void onItemClick(Actividad item);
     }
 
-    private String[] localDataSet;
+    private List<Actividad> localDataSet;
     private final OnItemClickListener mylistener;
 
 
@@ -40,9 +44,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             return textView;
         }
 
-        public void configurar(String txt, final OnItemClickListener mlistener){
-            textView.setText(txt);
-            textView3.setText(R.string.txtDemo);
+        public void configurar(Actividad txt, final OnItemClickListener mlistener){
+            textView.setText(txt.getTitulo());
+            textView3.setText(txt.getDesc());
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override public void onClick(View v){
                     mlistener.onItemClick(txt);
@@ -57,7 +61,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public CustomAdapter(String[] dataSet,OnItemClickListener listener) {
+    public CustomAdapter(List<Actividad> dataSet,OnItemClickListener listener) {
         localDataSet = dataSet;
         mylistener = listener;
     }
@@ -80,7 +84,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.configurar(localDataSet[position],mylistener);
+        viewHolder.configurar(localDataSet.get(position),mylistener);
 
     }
 
@@ -88,6 +92,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override
     public int getItemCount() {
         System.out.print("Se llamo este proc");
-        return localDataSet.length;
+        return localDataSet.size();
     }
 }
