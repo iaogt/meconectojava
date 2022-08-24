@@ -70,6 +70,7 @@ public class FirstFragment extends Fragment {
             @Override
             public void onItemClick(Actividad a) {
                 System.out.println("Dio click a la fila "+a.getTitulo());
+                firstViewModel.setSelectedActivity(a);
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }

@@ -1,6 +1,9 @@
 package com.meconecto;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,6 +36,7 @@ import com.meconecto.data.AppConfiguration;
 import com.meconecto.data.ConfigFactory;
 import com.meconecto.data.GameDataFac;
 import com.meconecto.data.MyUserFactory;
+import com.meconecto.data.Url4Download;
 import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.ActivityMainBinding;
 import com.meconecto.ui.home.HomeViewModel;
@@ -42,14 +46,20 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -170,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 config = ConfigFactory.buildConfiguration((Map<String,Object>) dataSnapshot.getValue());
                 System.out.println("---Se cargo la config");
                 cargoConfig=true;
-                quitarCargador();
+                downloadActivities();
                 // ..
             }
 
@@ -189,6 +199,62 @@ public class MainActivity extends AppCompatActivity {
             ImageView cargador = findViewById(R.id.cargador);
             cargador.setVisibility(View.GONE);
         }
+    }
+
+    private void downloadActivities(){
+        if(config!=null){
+            ArrayList<Url4Download> al = config.getUrls();
+            System.out.println("ArrayList");
+            Url4Download myurl = al.get(0);
+            try {
+                FileOutputStream fos = this.getBaseContext().openFileOutput(myurl.getID() + "_content.html", Context.MODE_PRIVATE);
+                readOnlineFile(myurl.getUrl(), fos, myurl.getID());
+            }catch(FileNotFoundException e){
+                System.out.println("Error al abrir el archivo");
+            }
+        }
+        quitarCargador();
+    }
+
+    private void readOnlineFile(String strUrl,FileOutputStream dir,String actId){
+        new Thread(new Runnable(){
+
+            public void run(){
+                String finalStr="";
+
+
+                try {
+                    // Create a URL for the desired page
+                    URL url = new URL(strUrl); //My text file location
+                    //First open the connection
+                    HttpURLConnection conn=(HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(60000); // timing out in a minute
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+                    //t=(TextView)findViewById(R.id.TextView1); // ideally do this in onCreate()
+                    String str;
+                    while ((str = in.readLine()) != null) {
+                        finalStr+=str;
+                    }
+                    dir.write(finalStr.getBytes());
+                    dir.close();
+                    in.close();
+                } catch (Exception e) {
+                    System.out.println("Error al grabar archivos");
+                    System.out.println(e);
+                }
+
+                //since we are in background thread, to post results we have to go back to ui thread. do the following for that
+
+                /*Activity.this.runOnUiThread(new Runnable(){
+                    public void run(){
+                        t.setText(urls.get(0)); // My TextFile has 3 lines
+                    }
+                });*/
+
+            }
+        }).start();
     }
 
     @Override

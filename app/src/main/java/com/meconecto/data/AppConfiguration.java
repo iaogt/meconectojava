@@ -31,4 +31,12 @@ public class AppConfiguration implements Serializable {
     public Categoria getCategory(String catName){
         return categorias.get(catName);
     }
+
+    public ArrayList<Url4Download> getUrls(){
+        ArrayList<Url4Download> resultado=new ArrayList<>();
+        for(Map.Entry<String, Categoria> entry: categorias.entrySet()){
+            resultado.addAll(entry.getValue().getUrls());
+        }
+        return resultado;
+    }
 }

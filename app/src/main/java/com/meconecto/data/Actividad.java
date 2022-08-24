@@ -5,15 +5,19 @@ import java.io.Serializable;
 public class Actividad implements Serializable {
     private String titulo;
     private String desc;
-    private Integer exito;
-    private Integer fracaso;
+    private Long exito;
+    private Long fracaso;
+    private String objid;
     private String id;
+    private String url;
 
     Actividad(){}
 
-    public void setId(String id) {
-        this.id = id;
+    public void setObjId(String id) {
+        this.objid = id;
     }
+
+    public void setId(String id){ this.id = id;}
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
@@ -31,11 +35,19 @@ public class Actividad implements Serializable {
         return desc;
     }
 
-    public void setExito(Integer exito) {
+    public void setExito(Long exito) {
         this.exito = exito;
     }
 
-    public void setFracaso(Integer fracaso) {
+    public void setFracaso(Long fracaso) {
         this.fracaso = fracaso;
+    }
+
+    public void setUrl(String uri){ this.url=uri;}
+
+    public String getUrl(){ return this.url;}
+
+    public String getId() {
+        return id;
     }
 }
