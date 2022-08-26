@@ -50,4 +50,12 @@ public class Actividad implements Serializable {
     public String getId() {
         return id;
     }
+
+    public Long getExito() {
+        return exito;
+    }
+
+    public Long getFracaso() {
+        return fracaso;
+    }
 }

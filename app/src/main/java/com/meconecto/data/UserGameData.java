@@ -6,4 +6,12 @@ public class UserGameData {
     UserGameData(){
         punteo=new Long(0);
     }
+
+    public void sumarPuntos(Long puntos){
+        punteo = punteo + puntos;
+    }
+
+    public void restarPuntos(Long puntos){
+        punteo = punteo - puntos;
+    }
 }

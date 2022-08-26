@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private HomeViewModel homeViewModel;
 
     public static final String APP_CONFIG = "com.meconecto.APP_CONFIG";
+    public static final String APP_USERID = "com.meconecto.APP_USERID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
     public void enviarAListado(View view){
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
         intent.putExtra(APP_CONFIG,config.getCategory("cyberbullying"));
+        intent.putExtra(APP_USERID,userId);
         startActivity(intent);
     }
 
@@ -263,6 +265,12 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         //updateUI(currentUser);
         userId = userFac.getCurrentUser();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        cargarUsuario();
     }
 
 }

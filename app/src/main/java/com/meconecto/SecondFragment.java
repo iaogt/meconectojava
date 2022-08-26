@@ -1,12 +1,17 @@
 package com.meconecto;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -17,6 +22,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.meconecto.data.Actividad;
 import com.meconecto.data.Categoria;
 import com.meconecto.databinding.FragmentSecondBinding;
+import com.meconecto.web.WebActivities;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -34,6 +40,12 @@ public class SecondFragment extends Fragment {
 
     private Actividad selectedActivity;
 
+    WebActivities proxyWeb;
+
+    OnBackPressedCallback callback;
+
+    Context mContext;
+
     class DatosObserver2 implements Observer {
         @Override
         public void onChanged(Object o) {
@@ -49,8 +61,29 @@ public class SecondFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+        mContext = this.getContext();
+        callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button even
+                new AlertDialog.Builder(mContext)
+                        .setMessage("Are you sure you want to exit?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                System.out.println("Saldrá el usuario");
+                                ((ListaDinamicas)getActivity()).updateUserGameData(proxyWeb.getPunteo());
+                                getActivity().getSupportFragmentManager().popBackStack();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        };
 
+        requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
 
         firstViewModel = new ViewModelProvider(requireActivity()).get(FirstFragmentModel.class);
         firstViewModel.getSelectedActivity().observe(getViewLifecycleOwner(),new DatosObserver2());
@@ -77,40 +110,44 @@ public class SecondFragment extends Fragment {
     }
 
     private void loadUrl(){
+        proxyWeb = new WebActivities(this.getContext(),selectedActivity);
         WebView myWebView = binding.wWeb;
         myWebView.getSettings().setJavaScriptEnabled(true);
-
-try {
-    FileInputStream fis = this.getContext().openFileInput(selectedActivity.getId() + "_content.html");
-    InputStreamReader inputStreamReader =
-            new InputStreamReader(fis, StandardCharsets.UTF_8);
-    StringBuilder stringBuilder = new StringBuilder();
-    try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
-        String line = reader.readLine();
-        while (line != null) {
-            stringBuilder.append(line).append('\n');
-            line = reader.readLine();
+        myWebView.addJavascriptInterface(proxyWeb,"Android");
+        try {
+            FileInputStream fis = this.getContext().openFileInput(selectedActivity.getId() + "_content.html");
+            InputStreamReader inputStreamReader =
+                    new InputStreamReader(fis, StandardCharsets.UTF_8);
+            StringBuilder stringBuilder = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
+                String line = reader.readLine();
+                while (line != null) {
+                    stringBuilder.append(line).append('\n');
+                    line = reader.readLine();
+                }
+                System.out.println(stringBuilder.toString());
+                String baseUrl = "http://webymovil.com/";
+                myWebView.loadDataWithBaseURL(baseUrl,stringBuilder.toString(),"text/html",null,baseUrl);
+            } catch (IOException e) {
+                System.out.println("Error al leer el archivo");
+                // Error occurred when opening raw file for reading.
+            } finally {
+                String contents = stringBuilder.toString();
+            }
+            //String path = "file:///"+Environment.DIRECTORY_DOWNLOADS+"/"+selectedActivity.getId()+"/miarchivo.txt";
+            //myWebView.loadUrl(path);
+        }catch(FileNotFoundException e){
+            System.out.println("no encuentra el archivo");
         }
-        System.out.println(stringBuilder.toString());
-        String baseUrl = "http://webymovil.com/";
-        myWebView.loadDataWithBaseURL(baseUrl,stringBuilder.toString(),"text/html",null,baseUrl);
-    } catch (IOException e) {
-        System.out.println("Error al leer el archivo");
-        // Error occurred when opening raw file for reading.
-    } finally {
-        String contents = stringBuilder.toString();
-    }
-    //String path = "file:///"+Environment.DIRECTORY_DOWNLOADS+"/"+selectedActivity.getId()+"/miarchivo.txt";
-    //myWebView.loadUrl(path);
-}catch(FileNotFoundException e){
-    System.out.println("no encuentra el archivo");
-}
     }
 
     @Override
     public void onDestroyView() {
+        callback.remove();
         super.onDestroyView();
         binding = null;
     }
+
+
 
 }
