@@ -4,16 +4,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.meconecto.data.UserGameData;
+
 public class AmigosViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final MutableLiveData<UserGameData> userGData;
 
     public AmigosViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        userGData = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<UserGameData> getAmigos() {
+        return userGData;
+    }
+
+    public void setAmigos(UserGameData ugd){
+        userGData.setValue(ugd);
     }
 }

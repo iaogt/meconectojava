@@ -21,18 +21,21 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
+    UserGameData uGD;
+
     TextView labelPunteo;
 
     class PunteoObserver implements Observer {
         @Override
         public void onChanged(Object o) {
-            UserGameData uGD = (UserGameData)o;
-            labelPunteo.setText(uGD.punteo.toString());
+            uGD = (UserGameData)o;
+            updateHomeScreen();
         }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         HomeViewModel homeViewModel =
                 new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
@@ -43,6 +46,10 @@ public class HomeFragment extends Fragment {
         homeViewModel.getuserGData().observe(getViewLifecycleOwner(), new PunteoObserver());
 
         return root;
+    }
+
+    public void updateHomeScreen(){
+        labelPunteo.setText(uGD.punteo.toString());
     }
 
     @Override

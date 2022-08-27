@@ -7,22 +7,29 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +39,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.meconecto.data.AppConfiguration;
 import com.meconecto.data.ConfigFactory;
 import com.meconecto.data.GameDataFac;
@@ -39,6 +49,9 @@ import com.meconecto.data.MyUserFactory;
 import com.meconecto.data.Url4Download;
 import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.ActivityMainBinding;
+import com.meconecto.ui.amigos.AmigosFragment;
+import com.meconecto.ui.amigos.AmigosViewModel;
+import com.meconecto.ui.home.HomeFragment;
 import com.meconecto.ui.home.HomeViewModel;
 
 import java.io.BufferedInputStream;
@@ -77,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     private Boolean cargoUserData = false;
 
     private HomeViewModel homeViewModel;
+    private AmigosViewModel amigosViewModel;
 
     public static final String APP_CONFIG = "com.meconecto.APP_CONFIG";
     public static final String APP_USERID = "com.meconecto.APP_USERID";
@@ -85,6 +99,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                        }
+                        System.out.println("Venia de un deeplink");
+                        System.out.println(deepLink);
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        System.out.println("fallo en dynamiclink");
+                    }
+                });
+
+
+
         userFac = new MyUserFactory(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -103,14 +141,37 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.amigosFragment, R.id.navigation_dashboard, R.id.rankingFragment,R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_amigos, R.id.navigation_dashboard, R.id.navigation_ranking,R.id.navigation_notifications)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        /*navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                System.out.println("selecciono el item del menu");
+                Fragment selectedFragment = null;
 
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        selectedFragment = new HomeFragment();
+                        break;
+                    case R.id.navigation_amigos:
+                        selectedFragment = new AmigosFragment();
+                        break;
+
+                }
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,
+                        selectedFragment).commit();
+                refrescaHome();
+                return true;
+            }
+        });*/
+
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        amigosViewModel = new ViewModelProvider(this).get(AmigosViewModel.class);
 
         if(userId!=null){   //Si hay usuario
             this.cargarUsuario();
@@ -160,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void refrescaHome(){
         homeViewModel.setmText(userGData);
+        homeViewModel.setUserId(userId);
         System.out.println("Actualiza punteo:");
         System.out.println(userGData.punteo.toString());
     }

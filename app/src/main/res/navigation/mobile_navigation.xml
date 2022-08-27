@@ -23,13 +23,13 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
     <fragment
-        android:id="@+id/amigosFragment"
+        android:id="@+id/navigation_amigos"
         android:name="com.meconecto.ui.amigos.AmigosFragment"
-        android:label="fragment_amigos"
+        android:label="Amigos"
         tools:layout="@layout/fragment_amigos" />
     <fragment
-        android:id="@+id/rankingFragment"
+        android:id="@+id/navigation_ranking"
         android:name="com.meconecto.ui.ranking.RankingFragment"
-        android:label="fragment_ranking"
+        android:label="Ranking"
         tools:layout="@layout/fragment_ranking" />
 </navigation>

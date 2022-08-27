@@ -1,10 +1,15 @@
 package com.meconecto.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserGameData {
     public Long punteo;
+    public Map<String,String> amigos;
 
     UserGameData(){
         punteo=new Long(0);
+        amigos = new HashMap<>();
     }
 
     public void sumarPuntos(Long puntos){
@@ -13,5 +18,9 @@ public class UserGameData {
 
     public void restarPuntos(Long puntos){
         punteo = punteo - puntos;
+    }
+
+    public Map<String, String> getAmigos() {
+        return amigos;
     }
 }
