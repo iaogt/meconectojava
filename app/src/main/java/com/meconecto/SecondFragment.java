@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -62,7 +63,7 @@ public class SecondFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         mContext = this.getContext();
-        callback = new OnBackPressedCallback(true /* enabled by default */) {
+        callback = new OnBackPressedCallback(true /* enabled by default*/ ) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button even
@@ -73,13 +74,20 @@ public class SecondFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 System.out.println("Saldrá el usuario");
                                 ((ListaDinamicas)getActivity()).updateUserGameData(proxyWeb.getPunteo());
-                                getActivity().getSupportFragmentManager().popBackStack();
+                                NavHostFragment.findNavController(SecondFragment.this).popBackStack();
+
+                                //getActivity().getSupportFragmentManager().popBackStack();
+                                /*NavHostFragment.findNavController(SecondFragment.this)
+                                        .navigate(R.id.action_SecondFragment_to_FirstFragment);*/
                             }
                         })
                         .setNegativeButton("No", null)
                         .show();
             }
         };
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
 
@@ -99,6 +107,7 @@ public class SecondFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 
         /*binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,9 +131,11 @@ public class SecondFragment extends Fragment {
             try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
                 String line = reader.readLine();
                 while (line != null) {
+                    System.out.println("fila leida");
                     stringBuilder.append(line).append('\n');
                     line = reader.readLine();
                 }
+                System.out.println("contenido del archivo:");
                 System.out.println(stringBuilder.toString());
                 String baseUrl = "http://webymovil.com/";
                 myWebView.loadDataWithBaseURL(baseUrl,stringBuilder.toString(),"text/html",null,baseUrl);

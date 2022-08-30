@@ -147,29 +147,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        /*navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                System.out.println("selecciono el item del menu");
-                Fragment selectedFragment = null;
-
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        selectedFragment = new HomeFragment();
-                        break;
-                    case R.id.navigation_amigos:
-                        selectedFragment = new AmigosFragment();
-                        break;
-
-                }
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,
-                        selectedFragment).commit();
-                refrescaHome();
-                return true;
-            }
-        });*/
-
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         amigosViewModel = new ViewModelProvider(this).get(AmigosViewModel.class);
 
@@ -268,16 +245,22 @@ public class MainActivity extends AppCompatActivity {
     private void downloadActivities(){
         if(config!=null){
             ArrayList<Url4Download> al = config.getUrls();
-            System.out.println("ArrayList");
-            Url4Download myurl = al.get(0);
-            try {
-                FileOutputStream fos = this.getBaseContext().openFileOutput(myurl.getID() + "_content.html", Context.MODE_PRIVATE);
-                readOnlineFile(myurl.getUrl(), fos, myurl.getID());
-            }catch(FileNotFoundException e){
-                System.out.println("Error al abrir el archivo");
-            }
+            downloadAndSave(al);
+
         }
         quitarCargador();
+    }
+
+    public void downloadAndSave(ArrayList<Url4Download> al){
+        Url4Download myurl = al.remove(al.size()-1);
+        try {
+            FileOutputStream fos = this.getBaseContext().openFileOutput(myurl.getID() + "_content.html", Context.MODE_PRIVATE);
+            readOnlineFile(myurl.getUrl(), fos, myurl.getID());
+            if(al.size()>0)
+                downloadAndSave(al);
+        }catch(FileNotFoundException e){
+            System.out.println("Error al abrir el archivo");
+        }
     }
 
     private void readOnlineFile(String strUrl,FileOutputStream dir,String actId){
@@ -299,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
                     //t=(TextView)findViewById(R.id.TextView1); // ideally do this in onCreate()
                     String str;
                     while ((str = in.readLine()) != null) {
-                        finalStr+=str;
+                        finalStr+=str+'\n';
                     }
                     dir.write(finalStr.getBytes());
                     dir.close();
