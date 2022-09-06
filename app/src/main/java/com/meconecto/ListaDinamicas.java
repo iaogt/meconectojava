@@ -66,7 +66,7 @@ public class ListaDinamicas extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
-        getSupportActionBar().setTitle("CAtgro");
+        getSupportActionBar().setTitle(appC.getNombre());
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.meconecto.data.Actividad;
 import com.meconecto.data.Categoria;
 import com.meconecto.databinding.FragmentSecondBinding;
+import com.meconecto.ui.modals.Modal1;
 import com.meconecto.web.WebActivities;
 
 import java.io.BufferedReader;
@@ -31,6 +33,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+
 
 public class SecondFragment extends Fragment {
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -66,16 +69,13 @@ public class SecondFragment extends Fragment {
         callback = new OnBackPressedCallback(true /* enabled by default*/ ) {
             @Override
             public void handleOnBackPressed() {
-                // Handle the back button even
+                // Handle the back button eve
                 new AlertDialog.Builder(mContext)
                         .setMessage("Are you sure you want to exit?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                System.out.println("Saldrá el usuario");
-                                ((ListaDinamicas)getActivity()).updateUserGameData(proxyWeb.getPunteo());
                                 NavHostFragment.findNavController(SecondFragment.this).popBackStack();
-
                                 //getActivity().getSupportFragmentManager().popBackStack();
                                 /*NavHostFragment.findNavController(SecondFragment.this)
                                         .navigate(R.id.action_SecondFragment_to_FirstFragment);*/
@@ -105,6 +105,16 @@ public class SecondFragment extends Fragment {
 
     }
 
+    public void cerrarExitoso(){
+        ((ListaDinamicas)getActivity()).updateUserGameData(proxyWeb.getPunteo());
+        NavHostFragment.findNavController(SecondFragment.this).popBackStack();
+    }
+
+    public void cerrarFallido(){
+        //((ListaDinamicas)getActivity()).updateUserGameData(proxyWeb.getPunteo());
+        NavHostFragment.findNavController(SecondFragment.this).popBackStack();
+    }
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -119,9 +129,21 @@ public class SecondFragment extends Fragment {
     }
 
     private void loadUrl(){
-        proxyWeb = new WebActivities(this.getContext(),selectedActivity);
+        proxyWeb = new WebActivities(this.getChildFragmentManager(),selectedActivity,new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cerrarExitoso();
+            }
+        },new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cerrarFallido();
+            }
+        });
+
         WebView myWebView = binding.wWeb;
         myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         myWebView.addJavascriptInterface(proxyWeb,"Android");
         try {
             FileInputStream fis = this.getContext().openFileInput(selectedActivity.getId() + "_content.html");

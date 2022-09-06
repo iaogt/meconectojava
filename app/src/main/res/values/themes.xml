@@ -20,6 +20,16 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="Theme.MeConecto.Splash">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/splashback</item>
+    </style>
+
     <style name="Theme.MeConecto.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MeConecto.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

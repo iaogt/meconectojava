@@ -1,9 +1,13 @@
 package com.meconecto;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,14 +38,18 @@ public class FirstFragment extends Fragment {
 
     private List<Actividad> datos;
 
+    Categoria c;
+
 
     class DatosObserver implements Observer {
         @Override
         public void onChanged(Object o) {
-            Categoria c = (Categoria) o;
+            c = (Categoria) o;
             for(Actividad a: c.getActividades().values()){
-                datos.add(a);
+                datos.add(0,a);
             }
+            TextView txtSubtitle = binding.textView6;
+            txtSubtitle.setText(c.getSubtitle());
         }
     }
 
@@ -67,10 +75,19 @@ public class FirstFragment extends Fragment {
         lista = binding.listadinamicas;
         lista.setLayoutManager((layoutManager));
 
+        Button btnVideo = binding.btnVervideo;
+        btnVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(c.getVideourl()));
+                startActivity(browserIntent);
+            }
+        });
+
+
         lista.setAdapter(new CustomAdapter(datos, new CustomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Actividad a) {
-                System.out.println("Dio click a la fila "+a.getTitulo());
                 firstViewModel.setSelectedActivity(a);
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
@@ -86,7 +103,7 @@ public class FirstFragment extends Fragment {
         super.onResume();
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("CAtgro");
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("CAtgro");
 
     }
 

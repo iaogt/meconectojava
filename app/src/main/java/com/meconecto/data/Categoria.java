@@ -8,6 +8,10 @@ import java.util.Map;
 
 public class Categoria implements Serializable {
     private String nombre;
+    private String subtitle;
+    private String videourl;
+    private String description;
+
     private HashMap<String,Actividad> actividades;
 
     Categoria(){
@@ -16,6 +20,34 @@ public class Categoria implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public String getVideourl() {
+        return videourl;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public void setVideourl(String videourl) {
+        this.videourl = videourl;
     }
 
     public void setActividades(Map<String,Object> listActs) {

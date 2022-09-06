@@ -20,9 +20,13 @@ public class AppConfiguration implements Serializable {
 
     public void setCategorias(Map<String,Object> listCats) {
         for(Map.Entry<String, Object> entry: listCats.entrySet()){
+            Map<String,Object> catConfig = (Map<String,Object>)entry.getValue();
             Categoria c = new Categoria();
-            c.setNombre(entry.getKey());
-            c.setActividades((Map<String,Object>)entry.getValue());
+            c.setNombre((String)catConfig.get("nombre"));
+            c.setDescription((String)catConfig.get("description"));
+            c.setSubtitle((String)catConfig.get("subtitle"));
+            c.setVideourl((String)catConfig.get("videourl"));
+            c.setActividades((Map<String,Object>)catConfig.get("actividades"));
             this.categorias.put(entry.getKey(),c);
         }
         //this.categorias = categorias;

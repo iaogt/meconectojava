@@ -31,6 +31,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
         private final TextView textView3;
+        private final TextView puntos;
 
         public ViewHolder(View view) {
             super(view);
@@ -38,6 +39,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
             textView = (TextView) view.findViewById(R.id.textView);
             textView3 = (TextView) view.findViewById((R.id.textView3));
+            puntos = (TextView) view.findViewById((R.id.txtPuntos));
         }
 
         public TextView getTextView() {
@@ -45,8 +47,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
 
         public void configurar(Actividad txt, final OnItemClickListener mlistener){
+
             textView.setText(txt.getTitulo());
             textView3.setText(txt.getDesc());
+            puntos.setText(txt.getExito().toString());
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override public void onClick(View v){
                     mlistener.onItemClick(txt);

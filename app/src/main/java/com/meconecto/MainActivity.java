@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void enviarAListado(View view){
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
-        intent.putExtra(APP_CONFIG,config.getCategory("cyberbullying"));
+        intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
         intent.putExtra(APP_USERID,userId);
         startActivity(intent);
     }

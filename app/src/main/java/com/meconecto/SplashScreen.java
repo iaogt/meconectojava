@@ -13,11 +13,12 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try
+        /*try
         {
             this.getSupportActionBar().hide();
         }
-        catch (NullPointerException e){}
+        catch (NullPointerException e){}*/
+        //setTheme(R.style.Theme_MeConecto);
         setContentView(R.layout.activity_splash_screen);
 
         handler=new Handler();

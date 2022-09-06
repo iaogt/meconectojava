@@ -28,4 +28,7 @@
     <string name="txtCerrar">Cerrar</string>
     <string name="errorDynamicLink">Error al generar el link</string>
     <string name="txtLogro">Logro</string>
+    <string name="txtVervideo">Ver video</string>
+    <string name="txtFelicidades">Felicidades!, has obtenido:</string>
+    <string name="txtNopuntos">No lograste puntos</string>
 </resources>

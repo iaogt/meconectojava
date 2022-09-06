@@ -54,6 +54,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-dynamic-links'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
+
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin

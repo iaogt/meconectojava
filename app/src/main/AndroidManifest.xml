@@ -21,7 +21,8 @@
         <activity
             android:name=".SplashScreen"
             android:exported="true"
-            android:label="Splash">
+            android:label="Splash"
+            android:theme="@style/Theme.MeConecto.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
