@@ -31,4 +31,6 @@
     <string name="txtVervideo">Ver video</string>
     <string name="txtFelicidades">Felicidades!, has obtenido:</string>
     <string name="txtNopuntos">No lograste puntos</string>
+    <string name="meconecto">Meconecto</string>
+    <string name="tools">Tools</string>
 </resources>

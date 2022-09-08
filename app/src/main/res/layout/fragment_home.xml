@@ -4,47 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo"
     tools:context=".ui.home.HomeFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:paddingBottom="60dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:paddingVertical="15dp">
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@android:drawable/btn_star" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="20dp"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/meconecto"
                 android:scaleType="centerInside"
                 android:scaleX="1"
                 android:scaleY="1"
@@ -52,42 +33,99 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="134dp"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                android:paddingVertical="15dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:contentDescription="@string/tools"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/tools" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="PUntos"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <ImageButton
                     android:id="@+id/imageButton"
-                    android:layout_width="50dp"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/circle_0"
                     android:contentDescription="@string/txtGrooming"
+                    android:maxWidth="100dp"
+                    android:maxHeight="100dp"
+                    android:minWidth="100dp"
+                    android:minHeight="100dp"
                     android:onClick="enviarAListado"
                     android:scaleType="centerInside"
                     android:src="@drawable/groming" />
 
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
                 <ImageButton
                     android:id="@+id/imageButton2"
-                    android:layout_width="50dp"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/circle_0"
                     android:contentDescription="@string/txtSexting"
-                    android:scaleType="centerInside"
+                    android:maxWidth="100dp"
+                    android:maxHeight="100dp"
+                    android:minWidth="100dp"
+                    android:minHeight="100dp"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="15dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/sexting" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <ImageButton
                     android:id="@+id/imageButton3"
-                    android:layout_width="50dp"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/circle_0"
                     android:contentDescription="@string/txtSextortion"
+                    android:maxWidth="100dp"
+                    android:maxHeight="100dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="10dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/sextortion" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -95,7 +133,6 @@
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginBottom="200dp"
                 android:contentDescription="@string/txtAvatar"
                 android:scaleType="centerInside"
                 android:src="@drawable/avatar" />
@@ -105,38 +142,67 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
                 <ImageButton
                     android:id="@+id/imageButton4"
-                    android:layout_width="50dp"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/circle_0"
                     android:contentDescription="@string/txtGrooming"
+                    android:maxWidth="100dp"
+                    android:maxHeight="100dp"
+                    android:minWidth="100dp"
+                    android:minHeight="100dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/groming" />
+                    android:src="@drawable/cyberbullyin" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <ImageButton
                     android:id="@+id/imageButton5"
-                    android:layout_width="50dp"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/circle_0"
                     android:contentDescription="@string/txtSexting"
+                    android:maxWidth="100dp"
+                    android:maxHeight="100dp"
+                    android:minWidth="100dp"
+                    android:minHeight="100dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/sexting" />
+                    android:src="@drawable/seguridaddigital" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <ImageButton
                     android:id="@+id/imageButton6"
-                    android:layout_width="50dp"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/circle_0"
                     android:contentDescription="@string/txtSextortion"
+                    android:maxWidth="100dp"
+                    android:maxHeight="100dp"
+                    android:minWidth="100dp"
+                    android:minHeight="100dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/sextortion" />
+                    android:src="@drawable/controlparental" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
             </LinearLayout>
 
         </LinearLayout>
