@@ -107,11 +107,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
                         // Get deep link from result (may be null if no link is found)
                         Uri deepLink = null;
+                        System.out.println("Venia de un deeplink");
                         if (pendingDynamicLinkData != null) {
                             deepLink = pendingDynamicLinkData.getLink();
+                            System.out.println(deepLink);
                         }
-                        System.out.println("Venia de un deeplink");
-                        System.out.println(deepLink);
                     }
                 })
                 .addOnFailureListener(this, new OnFailureListener() {
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         userFac = new MyUserFactory(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                System.out.println("cambio el status del usuario");
                 if(firebaseAuth.getCurrentUser() != null) {
                     cargarUsuario();
                 }
@@ -150,9 +151,12 @@ public class MainActivity extends AppCompatActivity {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         amigosViewModel = new ViewModelProvider(this).get(AmigosViewModel.class);
 
-        if(userId!=null){   //Si hay usuario
+        if(userId!=null && userId.trim()!=""){   //Si hay usuario
+            System.out.println("Si hay usuario");
+            System.out.println(userId);
             this.cargarUsuario();
         }else{
+            System.out.println("No hay usuario");
             userFac.authUserAnonymous(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -168,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cargarUsuario(){
+        System.out.println("cargara usuario");
         GameDataFac.cargaDataUsuario(userId,new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

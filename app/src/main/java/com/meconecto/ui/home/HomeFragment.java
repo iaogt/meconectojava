@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void updateHomeScreen(){
-        labelPunteo.setText(uGD.punteo.toString());
+        labelPunteo.setText(uGD.punteo.toString()+" puntos");
     }
 
     @Override

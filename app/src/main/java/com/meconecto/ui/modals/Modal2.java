@@ -29,10 +29,6 @@ public class Modal2 extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.modal_fail,container);
         Button b = v.findViewById(R.id.btnSample);
-        TextView tx = v.findViewById(R.id.txtMensaje);
-        TextView txP = v.findViewById(R.id.txtNumPuntos);
-        tx.setText(R.string.txtFelicidades);
-        txP.setText(puntos.toString());
         b.setOnClickListener(cerrarClick);
         return v;
     }

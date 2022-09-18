@@ -12,7 +12,7 @@ public class GameDataFac {
 
     public static void setUserGameData(String uid,UserGameData configData){
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("usuarios").child(uid).setValue(configData);
+        //mDatabase.child("usuarios").child(uid).setValue(configData);
     }
 
     public static void cargaDataUsuario(String idUsuario,ValueEventListener postListener){
