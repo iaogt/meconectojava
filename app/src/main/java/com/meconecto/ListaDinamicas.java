@@ -39,6 +39,8 @@ public class ListaDinamicas extends AppCompatActivity {
 
     private UserGameData userGData;
 
+    private Categoria appC;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,10 @@ public class ListaDinamicas extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         userId = getIntent().getStringExtra(MainActivity.APP_USERID);
-        Categoria appC = (Categoria) getIntent().getSerializableExtra(MainActivity.APP_CONFIG);
+        appC = (Categoria) getIntent().getSerializableExtra(MainActivity.APP_CONFIG);
+        String completedActivs = (String)getIntent().getSerializableExtra(MainActivity.APP_COMPLETED);
         firstViewModel = new ViewModelProvider(this).get(FirstFragmentModel.class);
+        firstViewModel.setCompletedActivs(completedActivs);
         firstViewModel.setCategory(appC);
         cargarUsuario();
 
@@ -72,7 +76,7 @@ public class ListaDinamicas extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        getSupportActionBar().setTitle(appC.getNombre());
     }
 
     @Override
@@ -91,6 +95,7 @@ public class ListaDinamicas extends AppCompatActivity {
                 System.out.println("Se cargara la config del juego en listas---");
                 if (dataSnapshot.exists()) {      //Ya existe la data del usuario
                     userGData = dataSnapshot.getValue(UserGameData.class);
+                    firstViewModel.setCompletedActivs(userGData.getActividadesCompletadas());
                 }
                 System.out.println("---Se cargo la config del juego en listas");
             }
@@ -104,9 +109,10 @@ public class ListaDinamicas extends AppCompatActivity {
         });
     }
 
-    public void updateUserGameData(Long punteo){
+    public void updateUserGameData(Long punteo,String activId){
         System.out.println("actualizara el punteo del usuario");
         userGData.sumarPuntos(punteo);
+        userGData.addCompleted(activId);
         GameDataFac.setUserGameData(userId,userGData);
         System.out.println("Actualizco el punto");
     }

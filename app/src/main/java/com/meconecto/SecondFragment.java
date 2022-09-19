@@ -106,7 +106,7 @@ public class SecondFragment extends Fragment {
     }
 
     public void cerrarExitoso(){
-        ((ListaDinamicas)getActivity()).updateUserGameData(proxyWeb.getPunteo());
+        ((ListaDinamicas)getActivity()).updateUserGameData(proxyWeb.getPunteo(),selectedActivity.getId());
         NavHostFragment.findNavController(SecondFragment.this).popBackStack();
     }
 

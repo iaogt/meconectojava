@@ -10,8 +10,11 @@ public class Actividad implements Serializable {
     private String objid;
     private String id;
     private String url;
+    private Boolean completada;
 
-    Actividad(){}
+    Actividad(){
+        completada=false;
+    }
 
     public void setObjId(String id) {
         this.objid = id;
@@ -57,5 +60,13 @@ public class Actividad implements Serializable {
 
     public Long getFracaso() {
         return fracaso;
+    }
+
+    public Boolean getCompletada(){
+        return completada;
+    }
+
+    public void setCompletada(Boolean t){
+        this.completada = t;
     }
 }

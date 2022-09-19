@@ -46,6 +46,7 @@ import com.meconecto.data.AppConfiguration;
 import com.meconecto.data.ConfigFactory;
 import com.meconecto.data.GameDataFac;
 import com.meconecto.data.MyUserFactory;
+import com.meconecto.data.Nivel;
 import com.meconecto.data.Url4Download;
 import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.ActivityMainBinding;
@@ -92,8 +93,11 @@ public class MainActivity extends AppCompatActivity {
     private HomeViewModel homeViewModel;
     private AmigosViewModel amigosViewModel;
 
+    private String completedActivs;
+
     public static final String APP_CONFIG = "com.meconecto.APP_CONFIG";
     public static final String APP_USERID = "com.meconecto.APP_USERID";
+    public static final String APP_COMPLETED = "com.meconecto.APP_COMPLETED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +185,10 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Se cargara la config---");
                 if(dataSnapshot.exists()){      //Ya existe la data del usuario
                     userGData = dataSnapshot.getValue(UserGameData.class);
+                    completedActivs = userGData.getActividadesCompletadas();
                 }else{
                     userGData = GameDataFac.emptyGame();
+                    userGData.setHerramientas(config.getTools());
                     GameDataFac.setUserGameData(userId,userGData);
                 }
                 refrescaHome();
@@ -201,7 +207,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void chooseLevel() {
+        for (Map.Entry<String, Nivel> entry : config.getNiveles().entrySet()) {
+            Nivel n = (Nivel)entry.getValue();
+            if(userGData.punteo>n.getPuntos_menor() && userGData.punteo<n.getPuntos_mayor()){
+                if(userGData.getNivel()!=n.getId()){
+                    //cambió de nivel
+                }else{
+                    //sigue en mismo nivel
+                }
+            }
+        }
+    }
+
     public void refrescaHome(){
+        chooseLevel();
         homeViewModel.setmText(userGData);
         homeViewModel.setUserId(userId);
         System.out.println("Actualiza punteo:");
@@ -212,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
         intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
         intent.putExtra(APP_USERID,userId);
+        intent.putExtra(APP_COMPLETED,completedActivs);
         startActivity(intent);
     }
 

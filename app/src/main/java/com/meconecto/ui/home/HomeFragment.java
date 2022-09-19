@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.meconecto.ListaDinamicas;
 import com.meconecto.MainActivity;
+import com.meconecto.R;
 import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.FragmentHomeBinding;
 
@@ -49,6 +50,14 @@ public class HomeFragment extends Fragment {
     }
 
     public void updateHomeScreen(){
+        switch(uGD.getNivel()){
+            case "nivel1":{
+                binding.imageView4.setImageResource(R.drawable.avatar);
+            }
+            default:{
+                binding.imageView4.setImageResource(R.drawable.avatar);
+            }
+        }
         labelPunteo.setText(uGD.punteo.toString()+" puntos");
     }
 

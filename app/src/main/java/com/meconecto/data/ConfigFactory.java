@@ -23,7 +23,13 @@ public class ConfigFactory {
         Long version = (Long)config.get("version");
         ap.setVersion(version);
         Map<String,Object> cont = (Map<String,Object>)config.get("contenido");
+        Map<String,Object> nive = (Map<String,Object>)config.get("niveles");
+        Map<String,Object> herra = (Map<String,Object>)config.get("herramientas");
+        Map<String,Object> logros = (Map<String,Object>)config.get("logros");
         ap.setCategorias(cont);
+        ap.setNiveles(nive);
+        ap.setTools(herra);
+        ap.setLogros(logros);
         return ap;
     }
 

@@ -37,6 +37,9 @@ public class FirstFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
 
     private List<Actividad> datos;
+    private String completedActivs="";
+
+    private CustomAdapter adapterActividades;
 
     Categoria c;
 
@@ -44,12 +47,36 @@ public class FirstFragment extends Fragment {
     class DatosObserver implements Observer {
         @Override
         public void onChanged(Object o) {
+            System.out.println("Vinieron las cats");
             c = (Categoria) o;
             for(Actividad a: c.getActividades().values()){
+                if(completedActivs.indexOf(a.getId())>0){
+                    a.setCompletada(true);
+                }
                 datos.add(0,a);
             }
             TextView txtSubtitle = binding.textView6;
             txtSubtitle.setText(c.getSubtitle());
+        }
+    }
+
+    class DatosObserver2 implements Observer {
+        @Override
+        public void onChanged(Object o) {
+            System.out.println("vinieron las completadas");
+            String d = (String) o;
+            completedActivs = d;
+            if(datos.size()>0){
+                List<Actividad> temp = new ArrayList<>();
+                for(Actividad a: datos){
+                    if(completedActivs.indexOf(a.getId())>0){
+                        a.setCompletada(true);
+                    }
+                    temp.add(a);
+                }
+                datos = temp;
+                adapterActividades.notifyDataSetChanged();
+            }
         }
     }
 
@@ -70,6 +97,7 @@ public class FirstFragment extends Fragment {
         datos = new ArrayList<>();
 
         firstViewModel = new ViewModelProvider(requireActivity()).get(FirstFragmentModel.class);
+        firstViewModel.getCompletedActivs().observe(getViewLifecycleOwner(),new DatosObserver2());
         firstViewModel.getCategory().observe(getViewLifecycleOwner(),new DatosObserver());
 
         lista = binding.listadinamicas;
@@ -84,25 +112,29 @@ public class FirstFragment extends Fragment {
             }
         });
 
-
-        lista.setAdapter(new CustomAdapter(datos, new CustomAdapter.OnItemClickListener() {
+        adapterActividades = new CustomAdapter(datos, new CustomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Actividad a) {
                 firstViewModel.setSelectedActivity(a);
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
-        }));
+        });
+
+        lista.setAdapter(adapterActividades);
 
         return binding.getRoot();
 
     }
+
 
     @Override
     public void onResume(){
         super.onResume();
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        adapterActividades.notifyDataSetChanged();
+
         //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("CAtgro");
 
     }

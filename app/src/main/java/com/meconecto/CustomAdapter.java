@@ -1,5 +1,6 @@
 package com.meconecto;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private List<Actividad> localDataSet;
     private final OnItemClickListener mylistener;
+    private String completedActivs;
 
 
     /**
@@ -46,8 +48,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             return textView;
         }
 
-        public void configurar(Actividad txt, final OnItemClickListener mlistener){
-
+        public void configurar(Actividad txt, final OnItemClickListener mlistener,String completed){
+            if(txt.getCompletada()){   //Ya completó esta actividad
+                System.out.println("Si existe");
+                itemView.setBackgroundColor(Color.parseColor("#00ff00"));
+            }else{
+                System.out.println("No existe en la lista de completadas");
+            }
             textView.setText(txt.getTitulo());
             textView3.setText(txt.getDesc());
             puntos.setText(txt.getExito().toString());
@@ -88,7 +95,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.configurar(localDataSet.get(position),mylistener);
+        viewHolder.configurar(localDataSet.get(position),mylistener,completedActivs);
 
     }
 
