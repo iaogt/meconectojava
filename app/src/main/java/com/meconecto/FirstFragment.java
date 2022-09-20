@@ -25,6 +25,8 @@ import com.meconecto.data.Categoria;
 import com.meconecto.databinding.FragmentFirstBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class FirstFragment extends Fragment {
@@ -49,12 +51,19 @@ public class FirstFragment extends Fragment {
         public void onChanged(Object o) {
             System.out.println("Vinieron las cats");
             c = (Categoria) o;
-            for(Actividad a: c.getActividades().values()){
+            HashMap<String,Actividad> listAct = c.getActividades();
+            ArrayList<String> sortedKeys
+                    = new ArrayList<String>(listAct.keySet());
+            Collections.sort(sortedKeys,Collections.reverseOrder());
+            // Display the TreeMap which is naturally sorted
+            for (String x : sortedKeys) {
+                Actividad a = listAct.get(x);
                 if(completedActivs.indexOf(a.getId())>0){
                     a.setCompletada(true);
-                }
+                };
                 datos.add(0,a);
             }
+
             TextView txtSubtitle = binding.textView6;
             txtSubtitle.setText(c.getSubtitle());
         }
@@ -131,11 +140,12 @@ public class FirstFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         adapterActividades.notifyDataSetChanged();
 
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("CAtgro");
+        ((ListaDinamicas) requireActivity()).ponerTitulo();
+
+        ((ListaDinamicas) requireActivity()).checkLogros();
 
     }
 

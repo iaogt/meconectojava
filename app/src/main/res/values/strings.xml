@@ -33,4 +33,5 @@
     <string name="txtNopuntos">No lograste puntos</string>
     <string name="meconecto">Meconecto</string>
     <string name="tools">Tools</string>
+    <string name="txtHasConseguido">has conseguido la insignia:</string>
 </resources>

@@ -20,12 +20,19 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.meconecto.data.Actividad;
 import com.meconecto.data.AppConfiguration;
 import com.meconecto.data.Categoria;
 import com.meconecto.data.GameDataFac;
 import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.ActivityListaDinamicasBinding;
 import com.meconecto.ui.home.HomeViewModel;
+import com.meconecto.ui.modals.Modal1;
+import com.meconecto.ui.modals.Modal3;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 public class ListaDinamicas extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -70,7 +77,38 @@ public class ListaDinamicas extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+        ponerTitulo();
+    }
+
+    public void ponerTitulo(){
         getSupportActionBar().setTitle(appC.getNombre());
+    }
+
+    public void checkLogros(){
+        if(userGData!=null) {
+            ArrayList<String> ids = new ArrayList<>();
+            for (Map.Entry<String, Actividad> entry : appC.getActividades().entrySet()) {
+                ids.add(entry.getValue().getId());
+            }
+            String logros = userGData.checkLogros(ids);
+            ArrayList<String> newArrLogros = new ArrayList<String>(Arrays.asList(logros.split(",")));
+            ArrayList<String> currentLogros = userGData.getArrLogros();
+            newArrLogros.removeAll(currentLogros);
+            if (newArrLogros.size() > 0) {  //Si hay nuevos logros entonces hay mas de 0
+                System.out.println("nuevo logro");
+                Modal3 m = new Modal3();
+                m.setNombreLogro(newArrLogros.get(0));
+                m.setCerrarClick(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        m.dismiss();
+                    }
+                });
+                m.show(this.getSupportFragmentManager(), Modal1.TAG);
+                userGData.setLogros(logros);
+                GameDataFac.setUserGameData(userId,userGData);
+            }
+        }
     }
 
     @Override
@@ -115,6 +153,10 @@ public class ListaDinamicas extends AppCompatActivity {
         userGData.addCompleted(activId);
         GameDataFac.setUserGameData(userId,userGData);
         System.out.println("Actualizco el punto");
+    }
+
+    private void mostrarLogro(){
+
     }
 
 
