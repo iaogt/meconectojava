@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        labelPunteo = binding.textView2;
+        //labelPunteo = binding.textView2;
         homeViewModel.getuserGData().observe(getViewLifecycleOwner(), new PunteoObserver());
 
         return root;
@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
                 binding.imageView4.setImageResource(R.drawable.avatar);
             }
         }
-        labelPunteo.setText(uGD.punteo.toString()+" puntos");
+        //labelPunteo.setText(uGD.punteo.toString()+" puntos");
     }
 
     @Override

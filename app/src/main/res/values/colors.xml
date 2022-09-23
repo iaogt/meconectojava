@@ -8,4 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="backYellow">#F8C200</color>
+    <color name="txtList">#4d719c</color>
+    <color name="menuBackground2">#569ed6</color>
+    <color name="menuBackground3">#236ca5</color>
+    <color name="menuTextColor">#192c4d</color>
+    <color name="backRow">#e6e7e8</color>
+    <color name="txtEstadoPendiente">#e33d20</color>
+    <color name="txtEstadoCompleta">#2bb673</color>
 </resources>

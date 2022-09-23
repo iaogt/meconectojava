@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -99,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String APP_USERID = "com.meconecto.APP_USERID";
     public static final String APP_COMPLETED = "com.meconecto.APP_COMPLETED";
 
+    private ProgressBar progressBar;
+    private int intProgresoCarga=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,9 +145,11 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        progressBar = binding.progressBar;
         this.getSupportActionBar().hide();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setItemIconTintList(null);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -159,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Si hay usuario");
             System.out.println(userId);
             this.cargarUsuario();
-        }else{
+        }else {
             System.out.println("No hay usuario");
             userFac.authUserAnonymous(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -172,7 +179,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+        this.addLoadProgress(10);
         this.loadJSONConfig();
+    }
+
+    public void addLoadProgress(int pr){
+        intProgresoCarga=intProgresoCarga+pr;
+        progressBar.setProgress(intProgresoCarga);
     }
 
     public void cargarUsuario(){
@@ -191,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     userGData.setHerramientas(config.getTools());
                     GameDataFac.setUserGameData(userId,userGData);
                 }
+                addLoadProgress(25);
                 refrescaHome();
                 System.out.println("---Se cargo la config");
                 cargoUserData=true;
@@ -247,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 config = ConfigFactory.buildConfiguration((Map<String,Object>) dataSnapshot.getValue());
                 System.out.println("---Se cargo la config");
                 cargoConfig=true;
+                addLoadProgress(25);
                 downloadActivities();
                 // ..
             }
@@ -263,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void quitarCargador(){
         if(cargoConfig&&cargoUserData){
-            ImageView cargador = findViewById(R.id.cargador);
+            LinearLayout cargador = findViewById(R.id.layoutLoader);
             cargador.setVisibility(View.GONE);
         }
     }

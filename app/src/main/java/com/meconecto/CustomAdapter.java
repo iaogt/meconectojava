@@ -1,5 +1,6 @@
 package com.meconecto;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
         private final TextView textView3;
-        private final TextView puntos;
+        private final TextView estado;
 
         public ViewHolder(View view) {
             super(view);
@@ -41,23 +42,27 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
             textView = (TextView) view.findViewById(R.id.textView);
             textView3 = (TextView) view.findViewById((R.id.textView3));
-            puntos = (TextView) view.findViewById((R.id.txtPuntos));
+
+            estado = (TextView) view.findViewById((R.id.textView14));
         }
 
         public TextView getTextView() {
             return textView;
         }
 
-        public void configurar(Actividad txt, final OnItemClickListener mlistener,String completed){
+        @SuppressLint("ResourceType")
+        public void configurar(Actividad txt, final OnItemClickListener mlistener, String completed){
             if(txt.getCompletada()){   //Ya completó esta actividad
-                System.out.println("Si existe");
-                itemView.setBackgroundColor(Color.parseColor("#00ff00"));
+                estado.setText("Completada");
+                estado.setTextColor(Color.parseColor("#2bb673"));
+//                itemView.setBackgroundColor(Color.parseColor("#00ff00"));
             }else{
-                System.out.println("No existe en la lista de completadas");
+                estado.setText("Pendiente");
+                estado.setTextColor(Color.parseColor("#e33d20"));
             }
             textView.setText(txt.getTitulo());
             textView3.setText(txt.getDesc());
-            puntos.setText(txt.getExito().toString());
+            //puntos.setText(txt.getExito().toString());
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override public void onClick(View v){
                     mlistener.onItemClick(txt);

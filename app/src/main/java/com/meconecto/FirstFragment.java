@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,8 +65,8 @@ public class FirstFragment extends Fragment {
                 datos.add(0,a);
             }
 
-            TextView txtSubtitle = binding.textView6;
-            txtSubtitle.setText(c.getSubtitle());
+            /*TextView txtSubtitle = binding.textView6;
+            txtSubtitle.setText(c.getSubtitle());*/
         }
     }
 
@@ -112,7 +113,7 @@ public class FirstFragment extends Fragment {
         lista = binding.listadinamicas;
         lista.setLayoutManager((layoutManager));
 
-        Button btnVideo = binding.btnVervideo;
+        ImageButton btnVideo = binding.btnVervideo;
         btnVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

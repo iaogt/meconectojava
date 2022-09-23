@@ -11,25 +11,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <ImageButton
+            android:id="@+id/btnVervideo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/btnVervideo"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/txtVervideo"
-                app:icon="@android:drawable/ic_media_play" />
-        </LinearLayout>
+            android:layout_height="224dp"
+            android:background="@color/white"
+            android:contentDescription="@string/txtVervideo"
+            android:scaleType="fitCenter"
+            android:src="@drawable/videocyber" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listadinamicas"

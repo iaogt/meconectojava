@@ -33,32 +33,6 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="horizontal"
-                android:paddingVertical="15dp">
-
-                <ImageButton
-                    android:id="@+id/imageButton7"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:contentDescription="@string/tools"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/tools" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="PUntos"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -67,60 +41,104 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <ImageButton
-                    android:id="@+id/imageButton"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/circle_0"
-                    android:contentDescription="@string/txtGrooming"
-                    android:maxWidth="100dp"
-                    android:maxHeight="100dp"
-                    android:minWidth="100dp"
-                    android:minHeight="100dp"
-                    android:onClick="enviarAListado"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/groming" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/circle_0"
+                        android:contentDescription="@string/txtGrooming"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:minWidth="100dp"
+                        android:minHeight="100dp"
+                        android:onClick="enviarAListado"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/cat1" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txtCat1"
+                        android:textAlignment="center" />
+                </LinearLayout>
 
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <ImageButton
-                    android:id="@+id/imageButton2"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/circle_0"
-                    android:contentDescription="@string/txtSexting"
-                    android:maxWidth="100dp"
-                    android:maxHeight="100dp"
-                    android:minWidth="100dp"
-                    android:minHeight="100dp"
-                    android:paddingHorizontal="15dp"
-                    android:paddingVertical="15dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/sexting" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/circle_0"
+                        android:contentDescription="@string/txtSexting"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:minWidth="100dp"
+                        android:minHeight="100dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/cat2" />
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txtCat2"
+                        android:textAlignment="center" />
+                </LinearLayout>
 
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <ImageButton
-                    android:id="@+id/imageButton3"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/circle_0"
-                    android:contentDescription="@string/txtSextortion"
-                    android:maxWidth="100dp"
-                    android:maxHeight="100dp"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="10dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/sextortion" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButton3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/circle_0"
+                        android:contentDescription="@string/txtSextortion"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/cat3" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txtCat3"
+                        android:textAlignment="center" />
+                </LinearLayout>
 
                 <Space
                     android:layout_width="wrap_content"
@@ -129,17 +147,28 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView4"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:contentDescription="@string/txtAvatar"
-                android:scaleType="centerInside"
-                android:src="@drawable/avatar" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="20dp"
+                    android:background="@drawable/fondoavatar"
+                    android:src="@drawable/personaje2"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/personaje2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <Space
@@ -147,38 +176,68 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <ImageButton
-                    android:id="@+id/imageButton4"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/circle_0"
-                    android:contentDescription="@string/txtGrooming"
-                    android:maxWidth="100dp"
-                    android:maxHeight="100dp"
-                    android:minWidth="100dp"
-                    android:minHeight="100dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/cyberbullyin" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButton4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/circle_0"
+                        android:contentDescription="@string/txtGrooming"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:minWidth="100dp"
+                        android:minHeight="100dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/cat4" />
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txtCat4"
+                        android:textAlignment="center" />
+                </LinearLayout>
 
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <ImageButton
-                    android:id="@+id/imageButton5"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/circle_0"
-                    android:contentDescription="@string/txtSexting"
-                    android:maxWidth="100dp"
-                    android:maxHeight="100dp"
-                    android:minWidth="100dp"
-                    android:minHeight="100dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/seguridaddigital" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButton5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/circle_0"
+                        android:contentDescription="@string/txtSexting"
+                        android:maxWidth="100dp"
+                        android:maxHeight="100dp"
+                        android:minWidth="100dp"
+                        android:minHeight="100dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/controlparental" />
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txtCat4"
+                        android:textAlignment="center" />
+                </LinearLayout>
 
                 <Space
                     android:layout_width="wrap_content"
