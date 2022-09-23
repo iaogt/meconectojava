@@ -12,19 +12,30 @@
         android:orientation="vertical"
         android:background="#fff"
         android:gravity="center">
-        <pl.droidsonroids.gif.GifImageView
+
+
+        <ImageView
+            android:id="@+id/imageView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/no"
-            />
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/fail" />
 
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txtLosiento"
+            android:textAlignment="center"
+            android:textColor="@color/txtEstadoPendiente"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtMensaje"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="@string/txtNopuntos"/>
+            android:text="@string/txtNopuntos"
+            android:textAlignment="center" />
 
 
         <Button

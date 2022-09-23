@@ -25,6 +25,7 @@ import com.meconecto.data.Actividad;
 import com.meconecto.data.Categoria;
 import com.meconecto.databinding.FragmentSecondBinding;
 import com.meconecto.ui.modals.Modal1;
+import com.meconecto.ui.modals.Modal4;
 import com.meconecto.web.WebActivities;
 
 import java.io.BufferedReader;
@@ -70,19 +71,15 @@ public class SecondFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button eve
-                new AlertDialog.Builder(mContext)
-                        .setMessage("Are you sure you want to exit?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                NavHostFragment.findNavController(SecondFragment.this).popBackStack();
-                                //getActivity().getSupportFragmentManager().popBackStack();
-                                /*NavHostFragment.findNavController(SecondFragment.this)
-                                        .navigate(R.id.action_SecondFragment_to_FirstFragment);*/
-                            }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                Modal4 confirmDialog = new Modal4();
+                confirmDialog.setCerrarClickSi(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NavHostFragment.findNavController(SecondFragment.this).popBackStack();
+                        confirmDialog.dismiss();
+                    }
+                });
+                confirmDialog.show(requireActivity().getSupportFragmentManager(), Modal4.TAG);
             }
         };
 

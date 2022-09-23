@@ -16,24 +16,28 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.meconecto.R;
 import com.meconecto.SecondFragment;
 
-public class Modal1 extends DialogFragment {
+public class Modal4 extends DialogFragment {
 
-    public static String TAG = "Modal1";
+    public static String TAG = "Modal4";
     public View v;
-    Long puntos;
-    public View.OnClickListener cerrarClick;
+    String nombreLogro;
+    public View.OnClickListener cerrarClickSi;
+    public View.OnClickListener cerrarClickNo;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.modal_kudos1,container);
-        Button b = v.findViewById(R.id.btnSample);
-        TextView tx = v.findViewById(R.id.txtMensaje);
-        TextView txP = v.findViewById(R.id.txtNumPuntos);
-        tx.setText(R.string.txtFelicidades);
-        txP.setText("Obtuviste "+puntos.toString()+" puntos");
-        b.setOnClickListener(cerrarClick);
+        v = inflater.inflate(R.layout.modal_confirm,container);
+        Button b = v.findViewById(R.id.button2);
+        Button c = v.findViewById(R.id.button3);
+        b.setOnClickListener(cerrarClickSi);
+        c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         return v;
     }
 
@@ -43,12 +47,12 @@ public class Modal1 extends DialogFragment {
 
     }
 
-    public void setCerrarClick(View.OnClickListener c){
-        cerrarClick = c;
+    public void setCerrarClickSi(View.OnClickListener c){
+        cerrarClickSi = c;
     }
 
-    public void setPuntos(Long p){
 
-        puntos = p;
-    }
+
+    public void setNombreLogro(String nom){ nombreLogro = nom;}
+
 }

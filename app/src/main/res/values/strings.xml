@@ -29,8 +29,9 @@
     <string name="errorDynamicLink">Error al generar el link</string>
     <string name="txtLogro">Logro</string>
     <string name="txtVervideo">Ver video</string>
-    <string name="txtFelicidades">Felicidades!, has obtenido:</string>
-    <string name="txtNopuntos">No lograste puntos</string>
+    <string name="txtFelicidades">¡Completaste la actividad!</string>
+    <string name="txtLosiento">Lo siento</string>
+    <string name="txtNopuntos">No completaste esta actividad</string>
     <string name="meconecto">Meconecto</string>
     <string name="tools">Tools</string>
     <string name="txtHasConseguido">has conseguido la insignia:</string>
@@ -40,4 +41,7 @@
     <string name="txtCat4">EQUIPADO</string>
     <string name="txtCat5">CONTROL PARENTAL</string>
     <string name="txtEstado">Estado:</string>
+    <string name="txtSeguro">¿Estas seguro que terminaste?</string>
+    <string name="txtSi">Si</string>
+    <string name="txtNo">No</string>
 </resources>
