@@ -97,7 +97,7 @@ public class ListaDinamicas extends AppCompatActivity {
             if (newArrLogros.size() > 0) {  //Si hay nuevos logros entonces hay mas de 0
                 System.out.println("nuevo logro");
                 Modal3 m = new Modal3();
-                m.setNombreLogro(newArrLogros.get(0));
+                m.setDataLogro(userGData.getLogroData(newArrLogros.get(0)));
                 m.setCerrarClick(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

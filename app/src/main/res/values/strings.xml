@@ -44,4 +44,8 @@
     <string name="txtSeguro">¿Estas seguro que terminaste?</string>
     <string name="txtSi">Si</string>
     <string name="txtNo">No</string>
+    <string name="txtInsignias">Insignias</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txtListAvatar">Avatares</string>
 </resources>

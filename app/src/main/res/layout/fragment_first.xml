@@ -15,10 +15,10 @@
             android:id="@+id/btnVervideo"
             android:layout_width="match_parent"
             android:layout_height="224dp"
-            android:background="@color/white"
+            android:background="@drawable/videocyber"
             android:contentDescription="@string/txtVervideo"
-            android:scaleType="fitCenter"
-            android:src="@drawable/videocyber" />
+            android:scaleType="centerInside"
+            android:src="@android:drawable/ic_menu_slideshow" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listadinamicas"

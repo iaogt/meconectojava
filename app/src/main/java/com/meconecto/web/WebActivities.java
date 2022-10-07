@@ -36,9 +36,9 @@ public class WebActivities {
 
     @JavascriptInterface
     public void terminarFallida(){
-        punteo = punteo - selActiv.getFracaso();
+        //punteo = punteo - selActiv.getFracaso();
         Modal2 m = new Modal2();
-        m.setPuntos(punteo);
+        m.setPuntos(new Long(0));
         m.setCerrarClick(cerrarClickFallido);
         m.show(fragMana, Modal1.TAG);
     }

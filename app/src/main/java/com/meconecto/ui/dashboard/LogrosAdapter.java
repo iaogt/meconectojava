@@ -1,8 +1,11 @@
 package com.meconecto.ui.dashboard;
 
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,28 +26,30 @@ public class LogrosAdapter extends RecyclerView.Adapter<LogrosAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
-        private final TextView textView3;
+        private final ImageView thumbLogro;
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
 
-            textView = (TextView) view.findViewById(R.id.textView);
-            textView3 = (TextView) view.findViewById((R.id.textView3));
+            thumbLogro = (ImageView) view.findViewById(R.id.thumbLogro);
         }
 
-        public TextView getTextView() {
-            return textView;
+        public ImageView getThumbView() {
+            return thumbLogro;
         }
 
-        public void configurar(String txt, final LogrosAdapter.OnItemClickListener mlistener){
-
-            itemView.setOnClickListener(new View.OnClickListener(){
+        public void configurar(int idImg, final LogrosAdapter.OnItemClickListener mlistener){
+            thumbLogro.setImageResource(idImg);
+            ColorMatrix matrix = new ColorMatrix();
+            matrix.setSaturation(0);  //0 means grayscale
+            ColorMatrixColorFilter cf = new ColorMatrixColorFilter(matrix);
+            thumbLogro.setColorFilter(cf);
+            /*itemView.setOnClickListener(new View.OnClickListener(){
                 @Override public void onClick(View v){
                     mlistener.onItemClick(txt);
                 }
-            });
+            });*/
         }
     }
 
@@ -70,7 +75,7 @@ public class LogrosAdapter extends RecyclerView.Adapter<LogrosAdapter.ViewHolder
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.configurar(localDataSet.get(position),mylistener);
+        viewHolder.configurar(Integer.parseInt(localDataSet.get(position)),mylistener);
 
     }
 

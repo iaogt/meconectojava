@@ -1,6 +1,6 @@
 package com.meconecto.data;
 
-import android.util.Log;
+import com.meconecto.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +77,7 @@ public class UserGameData {
     public String checkLogros(ArrayList<String> idsActivs){
         String strLogros = "";
         if(checkLogro1()){
-            strLogros = strLogros.concat(",logro1");
+            strLogros = strLogros.concat("logro1");
         }
         if(checkLogro2(idsActivs)){
             strLogros = strLogros.concat(",logro2");
@@ -95,6 +95,15 @@ public class UserGameData {
 
     public void setLogros(String newlogros){
         logros = newlogros;
+    }
+
+    public HashMap<String,String> getLogroData(String nomLogro){
+        HashMap<String,HashMap<String,String>> collLogros = new HashMap<>();
+        HashMap<String,String> logro1 = new HashMap<>();
+        logro1.put("nombre","Kinder");
+        logro1.put("imagen", String.valueOf(R.drawable.insignia1));
+        collLogros.put("logro1",logro1);
+        return collLogros.get(nomLogro);
     }
 
 }

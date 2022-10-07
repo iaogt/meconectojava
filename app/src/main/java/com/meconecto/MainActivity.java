@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         System.out.println("fallo en dynamiclink");
+                        System.out.println(e);
                     }
                 });
 
@@ -190,35 +192,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void cargarUsuario(){
         System.out.println("cargara usuario");
-        GameDataFac.cargaDataUsuario(userId,new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                //Post post = dataSnapshot.getValue(Post.class);
-                System.out.println("Se cargara la config---");
-                if(dataSnapshot.exists()){      //Ya existe la data del usuario
-                    userGData = dataSnapshot.getValue(UserGameData.class);
-                    completedActivs = userGData.getActividadesCompletadas();
-                }else{
-                    userGData = GameDataFac.emptyGame();
-                    userGData.setHerramientas(config.getTools());
-                    GameDataFac.setUserGameData(userId,userGData);
+        System.out.println(userId);
+        if(userId!=null) {
+            GameDataFac.cargaDataUsuario(userId, new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // Get Post object and use the values to update the UI
+                    //Post post = dataSnapshot.getValue(Post.class);
+                    System.out.println("Se cargara la config---");
+                    if (dataSnapshot.exists()) {      //Ya existe la data del usuario
+                        userGData = dataSnapshot.getValue(UserGameData.class);
+                        completedActivs = userGData.getActividadesCompletadas();
+                    } else {
+                        userGData = GameDataFac.emptyGame();
+                        userGData.setHerramientas(config.getTools());
+                        GameDataFac.setUserGameData(userId, userGData);
+                    }
+                    addLoadProgress(25);
+                    refrescaHome();
+                    System.out.println("---Se cargo la config");
+                    cargoUserData = true;
+                    quitarCargador();
+                    // ..
                 }
-                addLoadProgress(25);
-                refrescaHome();
-                System.out.println("---Se cargo la config");
-                cargoUserData=true;
-                quitarCargador();
-                // ..
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                //Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                System.out.println("Sucedió un error con la bd al cargar el usuario");
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Getting Post failed, log a message
+                    //Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                    System.out.println("Sucedió un error con la bd al cargar el usuario");
+                }
+            });
+        }
     }
 
     public void chooseLevel() {
@@ -243,6 +248,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enviarAListado(View view){
+        Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
+        intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
+        intent.putExtra(APP_USERID,userId);
+        intent.putExtra(APP_COMPLETED,completedActivs);
+        startActivity(intent);
+    }
+
+    public void enviarAListado2(View view){
+        Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
+        intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
+        intent.putExtra(APP_USERID,userId);
+        intent.putExtra(APP_COMPLETED,completedActivs);
+        startActivity(intent);
+    }
+
+
+
+    public void enviarAListado3(View view){
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
         intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
         intent.putExtra(APP_USERID,userId);
@@ -316,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                     URL url = new URL(strUrl); //My text file location
                     //First open the connection
                     HttpURLConnection conn=(HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(60000); // timing out in a minute
+                    conn.setConnectTimeout(8000); // timing out in a minute
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 

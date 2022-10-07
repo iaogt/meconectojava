@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.meconecto.R;
 import com.meconecto.databinding.FragmentDashboardBinding;
-import com.meconecto.ui.amigos.AmigosListAdapter;
 
 import java.util.ArrayList;
 
@@ -21,8 +20,10 @@ public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
     RecyclerView lista;
+    RecyclerView lista2;
     RecyclerView.LayoutManager layoutManager;
     private ArrayList<String> logros;
+    private ArrayList<String> insignias;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,22 +34,36 @@ public class DashboardFragment extends Fragment {
         View root = binding.getRoot();
 
         lista = binding.listaLogros;
+        lista2 = binding.listaInsignias;
 
         GridLayoutManager glm = new GridLayoutManager(this.getContext(),3);
+        GridLayoutManager glm2 = new GridLayoutManager(this.getContext(),3);
+
 
         lista.setLayoutManager(glm);
+        lista2.setLayoutManager(glm2);
 
         logros = new ArrayList<>();
-        logros.add("Logro 1");
-        logros.add("Logro 2");
-        logros.add("Logro 3");
-        logros.add("Logro 4");
-        logros.add("Logro 5");
-        logros.add("Logro 6");
-        logros.add("Logro 7");
-        logros.add("Logro 8");
+        logros.add(String.valueOf(R.drawable.logro1));
+        logros.add(String.valueOf(R.drawable.logro2));
+        logros.add(String.valueOf(R.drawable.logro3));
+        logros.add(String.valueOf(R.drawable.logro4));
+
+        insignias = new ArrayList<>();
+        insignias.add(String.valueOf(R.drawable.insignia1));
+        insignias.add(String.valueOf(R.drawable.insignia1));
+        insignias.add(String.valueOf(R.drawable.insignia1));
+
+
 
         lista.setAdapter(new LogrosAdapter(logros, new LogrosAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String a) {
+                System.out.println("Dio click a la fila "+a);
+            }
+        }));
+
+        lista2.setAdapter(new LogrosAdapter(insignias, new LogrosAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String a) {
                 System.out.println("Dio click a la fila "+a);
