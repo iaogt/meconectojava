@@ -18,10 +18,13 @@ import com.meconecto.FirstFragment;
 import com.meconecto.ListaDinamicas;
 import com.meconecto.MainActivity;
 import com.meconecto.R;
+import com.meconecto.data.GameDataFac;
 import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.FragmentHomeBinding;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 import pl.droidsonroids.gif.GifDrawable;
 
@@ -33,10 +36,24 @@ public class HomeFragment extends Fragment {
 
     TextView labelPunteo;
 
+    ImageView avatar;
+    String nomAvatar;
+
     class PunteoObserver implements Observer {
         @Override
         public void onChanged(Object o) {
             uGD = (UserGameData)o;
+            nomAvatar = uGD.getAvatar();
+            updateHomeScreen();
+        }
+    }
+
+    class AvatarObserver implements Observer {
+        @Override
+        public void onChanged(Object o) {
+            nomAvatar = (String)o;
+            System.out.println("cambio avatar");
+            System.out.println(nomAvatar);
             updateHomeScreen();
         }
     }
@@ -49,7 +66,8 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        ImageView avatar = (ImageView) binding.imageView4;
+
+        avatar = (ImageView) binding.imageView4;
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,22 +76,64 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
         //labelPunteo = binding.textView2;
         homeViewModel.getuserGData().observe(getViewLifecycleOwner(), new PunteoObserver());
+        homeViewModel.getAvatar().observe(getViewLifecycleOwner(), new AvatarObserver());
 
+        //updateHomeScreen();
         return root;
     }
 
-    public void updateHomeScreen(){
-        switch(uGD.getNivel()){
-            case "nivel1":{
 
-                binding.imageView4.setImageResource(R.drawable.avatar1simple);
+    public void updateHomeScreen(){
+        List arrAvatar;
+        switch(nomAvatar){
+            case "susan":{
+                arrAvatar = UserGameData.getAvatar1();
+                break;
+            }
+            case "jose":{
+                arrAvatar = UserGameData.getAvatar2();
+                break;
+            }
+            case "afro":{
+                arrAvatar = UserGameData.getAvatar3();
+                break;
+            }
+            case "ana":{
+                arrAvatar = UserGameData.getAvatar4();
+                break;
+            }
+            case "mama":{
+                arrAvatar = UserGameData.getAvatar5();
+                break;
+            }
+            case "papa":{
+                arrAvatar = UserGameData.getAvatar6();
+                break;
+            }
+            case "abuelo":{
+                arrAvatar = UserGameData.getAvatar7();
+                break;
             }
             default:{
-                binding.imageView4.setImageResource(R.drawable.avatar1simple);
+                System.out.println("usara el default");
+                arrAvatar = UserGameData.getAvatar1();
+                break;
             }
         }
+        HashMap<String,Integer> niveles = new HashMap<String,Integer>();
+        niveles.put("nivel1",0);
+        niveles.put("nivel2",1);
+        niveles.put("nivel3",2);
+        niveles.put("nivel4",3);
+        niveles.put("nivel5",4);
+        niveles.put("nivel6",5);
+        niveles.put("nivel7",6);
+        System.out.println("wowow");
+        binding.imageView4.setImageResource((int)arrAvatar.get(niveles.get(uGD.nivel)));
+
         //labelPunteo.setText(uGD.punteo.toString()+" puntos");
     }
 

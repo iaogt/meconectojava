@@ -10,10 +10,12 @@ public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<UserGameData> userGData;
     private final MutableLiveData<String> userId;
+    private final MutableLiveData<String> avatar;
 
     public HomeViewModel() {
         userGData = new MutableLiveData<>();
         userId = new MutableLiveData<>();
+        avatar = new MutableLiveData<>();
     }
 
     public LiveData<UserGameData> getuserGData() {
@@ -30,6 +32,12 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<String> getUserId(){
         return userId;
+    }
+
+    public LiveData<String> getAvatar() { return avatar;}
+
+    public void setNomAvatar(String pAvatar){
+        avatar.setValue(pAvatar);
     }
 
 }

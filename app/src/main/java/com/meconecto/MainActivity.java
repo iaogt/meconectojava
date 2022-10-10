@@ -3,6 +3,7 @@ package com.meconecto;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -98,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String completedActivs;
 
+    private MediaPlayer mpBack;
+    private MediaPlayer mpButton;
+
     public static final String APP_CONFIG = "com.meconecto.APP_CONFIG";
     public static final String APP_USERID = "com.meconecto.APP_USERID";
     public static final String APP_COMPLETED = "com.meconecto.APP_COMPLETED";
@@ -105,11 +110,24 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private int intProgresoCarga=0;
 
+    class AvatarObserver implements Observer {
+        @Override
+        public void onChanged(Object o) {
+            String nomAvatar = (String)o;
+            userGData.setNomAvatar(nomAvatar);
+            GameDataFac.setUserGameData(userId,userGData);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
+        //mpBack = MediaPlayer.create(this, R.raw.backgroundsound2);
+        //mpBack.setVolume(Float.parseFloat("0.1"),Float.parseFloat("0.1"));
+        //mpBack.start();
+        //mpBack.setLooping(true);
+        mpButton = MediaPlayer.create(this, R.raw.soundbutton2);
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
                 .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
@@ -163,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         amigosViewModel = new ViewModelProvider(this).get(AmigosViewModel.class);
+
+        homeViewModel.getAvatar().observe(this, new MainActivity.AvatarObserver());
+
 
         if(userId!=null && userId.trim()!=""){   //Si hay usuario
             System.out.println("Si hay usuario");
@@ -248,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enviarAListado(View view){
+        mpButton.start();
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
         intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
         intent.putExtra(APP_USERID,userId);

@@ -1,5 +1,6 @@
 package com.meconecto;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -7,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -56,6 +58,7 @@ public class ListaDinamicas extends AppCompatActivity {
         binding = ActivityListaDinamicasBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         setSupportActionBar(binding.toolbar);
 
         userId = getIntent().getStringExtra(MainActivity.APP_USERID);
@@ -94,7 +97,7 @@ public class ListaDinamicas extends AppCompatActivity {
             ArrayList<String> newArrLogros = new ArrayList<String>(Arrays.asList(logros.split(",")));
             ArrayList<String> currentLogros = userGData.getArrLogros();
             newArrLogros.removeAll(currentLogros);
-            if (newArrLogros.size() > 0) {  //Si hay nuevos logros entonces hay mas de 0
+            if (newArrLogros.size() > 0 && newArrLogros.get(0)!="") {  //Si hay nuevos logros entonces hay mas de 0
                 System.out.println("nuevo logro");
                 Modal3 m = new Modal3();
                 m.setDataLogro(userGData.getLogroData(newArrLogros.get(0)));
@@ -150,6 +153,11 @@ public class ListaDinamicas extends AppCompatActivity {
     public void updateUserGameData(Long punteo,String activId){
         System.out.println("actualizara el punteo del usuario");
         userGData.sumarPuntos(punteo);
+        Boolean cambio = userGData.evaluarNivel();
+        if(cambio){
+            System.out.println("cambio de nivel");
+            Toast.makeText(this.getBaseContext(), R.string.cambioNivel,Toast.LENGTH_LONG);
+        }
         userGData.addCompleted(activId);
         GameDataFac.setUserGameData(userId,userGData);
         System.out.println("Actualizco el punto");

@@ -1,11 +1,13 @@
 package com.meconecto.web;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.meconecto.R;
 import com.meconecto.data.Actividad;
 import com.meconecto.ui.modals.Modal1;
 import com.meconecto.ui.modals.Modal2;

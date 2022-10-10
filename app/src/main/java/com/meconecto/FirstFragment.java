@@ -1,6 +1,7 @@
 package com.meconecto;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,6 +46,9 @@ public class FirstFragment extends Fragment {
     private CustomAdapter adapterActividades;
 
     Categoria c;
+    private MediaPlayer mpButton;
+
+
 
 
     class DatosObserver implements Observer {
@@ -106,6 +110,8 @@ public class FirstFragment extends Fragment {
 
         datos = new ArrayList<>();
 
+        mpButton = MediaPlayer.create(requireContext(), R.raw.soundbutton2);
+
         firstViewModel = new ViewModelProvider(requireActivity()).get(FirstFragmentModel.class);
         firstViewModel.getCompletedActivs().observe(getViewLifecycleOwner(),new DatosObserver2());
         firstViewModel.getCategory().observe(getViewLifecycleOwner(),new DatosObserver());
@@ -125,6 +131,7 @@ public class FirstFragment extends Fragment {
         adapterActividades = new CustomAdapter(datos, new CustomAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Actividad a) {
+                mpButton.start();
                 firstViewModel.setSelectedActivity(a);
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);

@@ -1,6 +1,7 @@
 package com.meconecto.ui.modals;
 
 import android.app.AlertDialog;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ public class Modal2 extends DialogFragment {
     public View v;
     Long puntos;
     public View.OnClickListener cerrarClick;
+    private MediaPlayer mpButton;
+
 
 
     @Nullable
@@ -30,6 +33,8 @@ public class Modal2 extends DialogFragment {
         v = inflater.inflate(R.layout.modal_fail,container);
         Button b = v.findViewById(R.id.btnSample);
         b.setOnClickListener(cerrarClick);
+        mpButton = MediaPlayer.create(getContext(), R.raw.sounderror);
+        mpButton.start();
         return v;
     }
 

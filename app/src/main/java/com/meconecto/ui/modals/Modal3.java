@@ -33,9 +33,12 @@ public class Modal3 extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.modal_logro1,container);
         TextView tx = v.findViewById(R.id.nomLogro);
-        tx.setText(dataLogro.get("nombre"));
-        ImageView img = v.findViewById(R.id.imgLogro);
-        img.setImageResource(Integer.parseInt(dataLogro.get("imagen")));
+        if(dataLogro!=null)
+        {
+            tx.setText(dataLogro.get("nombre"));
+            ImageView img = v.findViewById(R.id.imgLogro);
+            img.setImageResource(Integer.parseInt(dataLogro.get("imagen")));
+        }
         Button b = v.findViewById(R.id.button);
         b.setOnClickListener(cerrarClick);
         return v;

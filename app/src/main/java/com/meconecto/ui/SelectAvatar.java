@@ -3,16 +3,25 @@ package com.meconecto.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.meconecto.R;
+import com.meconecto.data.UserGameData;
+import com.meconecto.ui.home.HomeFragment;
+import com.meconecto.ui.home.HomeViewModel;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +40,8 @@ public class SelectAvatar extends Fragment {
     private String mParam2;
     private Integer numImg;
     private ImageView objImg;
-    private ArrayList arrAvatares;
+    private ArrayList<List> arrAvatares;
+    private HomeViewModel homeViewModel;
 
     public SelectAvatar() {
         // Required empty public constructor
@@ -64,13 +74,13 @@ public class SelectAvatar extends Fragment {
         }
         numImg=0;
         arrAvatares = new ArrayList();
-        arrAvatares.add(R.drawable.avatarsusan);
-        arrAvatares.add(R.drawable.avatarjose);
-        arrAvatares.add(R.drawable.avatarafro);
-        arrAvatares.add(R.drawable.avatarana);
-        arrAvatares.add(R.drawable.avatarmama);
-        arrAvatares.add(R.drawable.avatarpapa);
-        arrAvatares.add(R.drawable.avatarabuelo);
+        arrAvatares.add(UserGameData.getAvatar1());
+        arrAvatares.add(UserGameData.getAvatar2());
+        arrAvatares.add(UserGameData.getAvatar3());
+        arrAvatares.add(UserGameData.getAvatar4());
+        arrAvatares.add(UserGameData.getAvatar5());
+        arrAvatares.add(UserGameData.getAvatar6());
+        arrAvatares.add(UserGameData.getAvatar7());
 
     }
 
@@ -78,10 +88,14 @@ public class SelectAvatar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        homeViewModel =
+                new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+
         View v =  inflater.inflate(R.layout.fragment_select_avatar, container, false);
         objImg = (ImageView) v.findViewById(R.id.imageView10);
         ImageButton bl = (ImageButton) v.findViewById(R.id.imageButton7);
         ImageButton br = (ImageButton) v.findViewById(R.id.imageButton8);
+        Button btn = (Button)v.findViewById(R.id.button4);
         bl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +107,16 @@ public class SelectAvatar extends Fragment {
             @Override
             public void onClick(View v) {
                 derImg();
+            }
+        });
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> lstAvatares = UserGameData.getNomAvatars();
+                homeViewModel.setNomAvatar(lstAvatares.get(numImg.intValue()));
+                NavHostFragment.findNavController(SelectAvatar.this).popBackStack();
+
             }
         });
 
@@ -114,6 +138,8 @@ public class SelectAvatar extends Fragment {
     }
 
     public void updateImg(){
-        objImg.setImageResource((int)arrAvatares.get(numImg.intValue()));
+        List listAvatars = arrAvatares.get(numImg.intValue());
+        int idAvatar = (int)listAvatars.get(0);
+        objImg.setImageResource(idAvatar);
     }
 }
