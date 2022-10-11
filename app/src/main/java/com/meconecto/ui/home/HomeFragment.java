@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,12 +39,15 @@ public class HomeFragment extends Fragment {
 
     ImageView avatar;
     String nomAvatar;
+    Long punteo;
+    ImageButton btn2, btn3;
 
     class PunteoObserver implements Observer {
         @Override
         public void onChanged(Object o) {
             uGD = (UserGameData)o;
             nomAvatar = uGD.getAvatar();
+            punteo = uGD.getPunteo();
             updateHomeScreen();
         }
     }
@@ -75,7 +79,12 @@ public class HomeFragment extends Fragment {
                             .navigate(R.id.action_navigation_home_to_selectAvatar);
             }
         });
-
+        btn2 = (ImageButton)binding.imageButton2;
+        btn3 = (ImageButton)binding.imageButton3;
+        btn2.setAlpha(Float.parseFloat("0.5"));
+        btn2.setEnabled(false);
+        btn3.setAlpha(Float.parseFloat("0.5"));
+        btn3.setEnabled(false);
 
         //labelPunteo = binding.textView2;
         homeViewModel.getuserGData().observe(getViewLifecycleOwner(), new PunteoObserver());
@@ -133,6 +142,14 @@ public class HomeFragment extends Fragment {
         niveles.put("nivel7",6);
         System.out.println("wowow");
         binding.imageView4.setImageResource((int)arrAvatar.get(niveles.get(uGD.nivel)));
+        if(niveles.get(uGD.nivel)>=1){
+            btn2.setAlpha(Float.parseFloat("1.0"));
+            btn2.setEnabled(true);
+        }
+        if(niveles.get(uGD.nivel)>=4){
+            btn3.setAlpha(Float.parseFloat("1.0"));
+            btn3.setEnabled(true);
+        }
 
         //labelPunteo.setText(uGD.punteo.toString()+" puntos");
     }

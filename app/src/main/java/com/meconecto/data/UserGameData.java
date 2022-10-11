@@ -46,6 +46,10 @@ public class UserGameData {
         punteo = punteo + puntos;
     }
 
+    public Long getPunteo(){
+        return punteo;
+    }
+
     public Boolean evaluarNivel() {
         String n="";
         Boolean result = false;

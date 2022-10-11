@@ -11,14 +11,67 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/btnVervideo"
+        <VideoView
+            android:id="@+id/videoView2"
             android:layout_width="match_parent"
-            android:layout_height="224dp"
-            android:background="@drawable/videocyber"
-            android:contentDescription="@string/txtVervideo"
-            android:scaleType="centerInside"
-            android:src="@android:drawable/ic_menu_slideshow" />
+            android:layout_height="250dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton9"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/videocyber"
+                    android:contentDescription="@string/txtVideo"
+                    android:src="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:id="@+id/imageButton10"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/videocyber"
+                    android:contentDescription="@string/txtVideo"
+                    android:src="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:id="@+id/imageButton11"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/videocyber"
+                    android:contentDescription="@string/txtVideo"
+                    android:src="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:id="@+id/imageButton12"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/videocyber"
+                    android:contentDescription="@string/txtVideo"
+                    android:src="@android:drawable/ic_media_play" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listadinamicas"

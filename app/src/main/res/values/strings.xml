@@ -50,4 +50,5 @@
     <string name="txtListAvatar">Avatares</string>
     <string name="txtSeleccionar">Seleccionar</string>
     <string name="cambioNivel">Tu avatar subio de nivel!</string>
+    <string name="txtVideo">Video</string>
 </resources>

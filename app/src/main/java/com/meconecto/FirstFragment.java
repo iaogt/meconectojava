@@ -1,6 +1,8 @@
 package com.meconecto;
 
 import android.content.Intent;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +31,7 @@ import com.meconecto.data.Categoria;
 import com.meconecto.databinding.FragmentFirstBinding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +53,12 @@ public class FirstFragment extends Fragment {
     Categoria c;
     private MediaPlayer mpButton;
 
+    private VideoView vw;
+
+
+    private List<String> lstVideos;
+
+    private ImageButton btnVideo1,btnVideo2,btnVideo3,btnVideo4;
 
 
 
@@ -89,6 +100,7 @@ public class FirstFragment extends Fragment {
                     temp.add(a);
                 }
                 datos = temp;
+                actualizaVideos();
                 adapterActividades.notifyDataSetChanged();
             }
         }
@@ -99,6 +111,7 @@ public class FirstFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+        lstVideos = Arrays.asList("android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming,"android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming,"android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming,"android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, FirstFragment.this.getClass().getSimpleName());
@@ -119,14 +132,44 @@ public class FirstFragment extends Fragment {
         lista = binding.listadinamicas;
         lista.setLayoutManager((layoutManager));
 
-        ImageButton btnVideo = binding.btnVervideo;
-        btnVideo.setOnClickListener(new View.OnClickListener() {
+
+
+        btnVideo1 = binding.imageButton9;
+        btnVideo1.setTag(0);
+        btnVideo2 = binding.imageButton10;
+        btnVideo2.setTag(1);
+        btnVideo3 = binding.imageButton11;
+        btnVideo3.setTag(2);
+        btnVideo4 = binding.imageButton12;
+        btnVideo4.setTag(3);
+        vw = (VideoView)binding.videoView2;
+        vw.setBackgroundResource(R.drawable.videocyber);
+        vw.setVideoURI(Uri.parse(lstVideos.get(0)));
+        MediaController mediaController = new MediaController(this.getContext());
+        mediaController.setAnchorView(vw);
+        vw.setMediaController(mediaController);
+        mediaController.setMediaPlayer(vw);
+        vw.requestFocus();
+        vw.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(c.getVideourl()));
-                startActivity(browserIntent);
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaController.setAnchorView(vw);
             }
         });
+        View.OnClickListener lst = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vw.setBackground(null);
+                Integer t = (Integer)v.getTag();
+                vw.setVideoURI(Uri.parse(lstVideos.get(t.intValue())));
+                vw.start();
+            }
+        };
+        btnVideo1.setOnClickListener(lst);
+        btnVideo2.setOnClickListener(lst);
+        btnVideo3.setOnClickListener(lst);
+        btnVideo4.setOnClickListener(lst);
+
 
         adapterActividades = new CustomAdapter(datos, new CustomAdapter.OnItemClickListener() {
             @Override
@@ -142,6 +185,33 @@ public class FirstFragment extends Fragment {
 
         return binding.getRoot();
 
+    }
+
+    public void actualizaVideos(){
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setSaturation(0);
+        System.out.println("Se actualizan los videos");
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        String[] lst = completedActivs.split(",");
+        System.out.println(lst.length);
+        btnVideo2.setEnabled(false);
+        btnVideo2.setAlpha(Float.parseFloat("0.5"));
+        btnVideo3.setEnabled(false);
+        btnVideo3.setAlpha(Float.parseFloat("0.5"));
+        btnVideo4.setEnabled(false);
+        btnVideo4.setAlpha(Float.parseFloat("0.5"));
+        if((lst.length>=1)){
+            btnVideo2.setEnabled(true);
+            btnVideo2.setAlpha(Float.parseFloat("1.0"));
+        }
+        if((lst.length>=3)){
+            btnVideo3.setEnabled(true);
+            btnVideo3.setAlpha(Float.parseFloat("1.0"));
+        }
+        if((lst.length>=5)){
+            btnVideo4.setEnabled(true);
+            btnVideo4.setAlpha(Float.parseFloat("1.0"));
+        }
     }
 
 
