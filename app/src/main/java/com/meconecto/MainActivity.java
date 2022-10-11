@@ -195,9 +195,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-
+                        userId = userFac.getCurrentUser();
+                        cargarUsuario();
                     } else {
-
+                        System.out.println("error al cargar usuario anonimo");
                     }
                 }
             });
@@ -302,9 +303,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
                 //Post post = dataSnapshot.getValue(Post.class);
-                System.out.println("Se cargara la config---");
                 config = ConfigFactory.buildConfiguration((Map<String,Object>) dataSnapshot.getValue());
-                System.out.println("---Se cargo la config");
                 cargoConfig=true;
                 addLoadProgress(25);
                 downloadActivities();
@@ -358,21 +357,25 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     // Create a URL for the desired page
-                    URL url = new URL(strUrl); //My text file location
-                    //First open the connection
-                    HttpURLConnection conn=(HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(8000); // timing out in a minute
+                    System.out.println("url:");
+                    System.out.println(strUrl);
+                    if(!strUrl.isEmpty()) {
+                        URL url = new URL(strUrl); //My text file location
+                        //First open the connection
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setConnectTimeout(8000); // timing out in a minute
 
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-                    //t=(TextView)findViewById(R.id.TextView1); // ideally do this in onCreate()
-                    String str;
-                    while ((str = in.readLine()) != null) {
-                        finalStr+=str+'\n';
+                        //t=(TextView)findViewById(R.id.TextView1); // ideally do this in onCreate()
+                        String str;
+                        while ((str = in.readLine()) != null) {
+                            finalStr += str + '\n';
+                        }
+                        dir.write(finalStr.getBytes());
+                        dir.close();
+                        in.close();
                     }
-                    dir.write(finalStr.getBytes());
-                    dir.close();
-                    in.close();
                 } catch (Exception e) {
                     System.out.println("Error al grabar archivos");
                     System.out.println(e);
