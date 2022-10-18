@@ -22,7 +22,8 @@
             android:name=".SplashScreen"
             android:exported="true"
             android:label="MeConecto"
-            android:theme="@style/Theme.MeConecto.Splash">
+            android:theme="@style/Theme.MeConecto.Splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -32,11 +33,13 @@
             android:name=".ListaDinamicas"
             android:exported="false"
             android:label="@string/title_activity_lista_dinamicas"
-            android:theme="@style/Theme.MeConecto.NoActionBar" />
+            android:theme="@style/Theme.MeConecto.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

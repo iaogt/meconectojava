@@ -56,4 +56,25 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/videoLoader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@color/backYellow"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/layoutLoader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/layoutLoader">
+
+        <VideoView
+            android:id="@+id/firstVideo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_horizontal|center_vertical"
+            android:visibility="visible" />
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

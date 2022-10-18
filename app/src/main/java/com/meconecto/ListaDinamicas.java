@@ -50,6 +50,8 @@ public class ListaDinamicas extends AppCompatActivity {
 
     private Categoria appC;
 
+    private FirebaseDatabase mData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +59,16 @@ public class ListaDinamicas extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         binding = ActivityListaDinamicasBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        if(mData==null){
+            mData = FirebaseDatabase.getInstance();
+        }
 
         setSupportActionBar(binding.toolbar);
 
         userId = getIntent().getStringExtra(MainActivity.APP_USERID);
         appC = (Categoria) getIntent().getSerializableExtra(MainActivity.APP_CONFIG);
         String completedActivs = (String)getIntent().getSerializableExtra(MainActivity.APP_COMPLETED);
+
         firstViewModel = new ViewModelProvider(this).get(FirstFragmentModel.class);
         firstViewModel.setCompletedActivs(completedActivs);
         firstViewModel.setCategory(appC);
@@ -109,7 +114,7 @@ public class ListaDinamicas extends AppCompatActivity {
                 });
                 m.show(this.getSupportFragmentManager(), Modal1.TAG);
                 userGData.setLogros(logros);
-                GameDataFac.setUserGameData(userId,userGData);
+                GameDataFac.setUserGameData(mData,userId,userGData);
             }
         }
     }
@@ -128,7 +133,7 @@ public class ListaDinamicas extends AppCompatActivity {
     }
 
     public void cargarUsuario() {
-        GameDataFac.cargaDataUsuario(userId, new ValueEventListener() {
+        GameDataFac.cargaDataUsuario(mData,userId, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -159,7 +164,7 @@ public class ListaDinamicas extends AppCompatActivity {
             Toast.makeText(this.getBaseContext(), R.string.cambioNivel,Toast.LENGTH_LONG);
         }
         userGData.addCompleted(activId);
-        GameDataFac.setUserGameData(userId,userGData);
+        GameDataFac.setUserGameData(mData,userId,userGData);
         System.out.println("Actualizco el punto");
     }
 

@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.meconecto.R;
+import com.meconecto.data.Avatar;
 import com.meconecto.data.UserGameData;
 import com.meconecto.ui.home.HomeFragment;
 import com.meconecto.ui.home.HomeViewModel;
@@ -92,6 +94,7 @@ public class SelectAvatar extends Fragment {
                 new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         View v =  inflater.inflate(R.layout.fragment_select_avatar, container, false);
+        EditText txtNomAvatar = v.findViewById(R.id.inputNomAvatar);
         objImg = (ImageView) v.findViewById(R.id.imageView10);
         ImageButton bl = (ImageButton) v.findViewById(R.id.imageButton7);
         ImageButton br = (ImageButton) v.findViewById(R.id.imageButton8);
@@ -114,7 +117,10 @@ public class SelectAvatar extends Fragment {
             @Override
             public void onClick(View v) {
                 List<String> lstAvatares = UserGameData.getNomAvatars();
-                homeViewModel.setNomAvatar(lstAvatares.get(numImg.intValue()));
+                Avatar a = new Avatar();
+                a.setImgAvatar(lstAvatares.get(numImg.intValue()));
+                a.setNombre(txtNomAvatar.getText().toString().replace(getResources().getString(R.string.txtNomAvatar),""));
+                homeViewModel.setAvatar(a);
                 NavHostFragment.findNavController(SelectAvatar.this).popBackStack();
 
             }

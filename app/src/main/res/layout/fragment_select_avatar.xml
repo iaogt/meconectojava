@@ -6,45 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".ui.SelectAvatar">
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:text="@string/txtSeleccionar" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/txtListAvatar"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/imageButton7"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="clip_vertical|center_vertical"
-            android:contentDescription="@string/txtListAvatar"
-            android:scaleType="centerInside"
-            android:src="@drawable/arrowleft" />
-
-        <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/inputNomAvatar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:src="@drawable/avatar1simple" />
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/txtNomAvatar" />
 
-        <ImageButton
-            android:id="@+id/imageButton8"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_vertical"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/txtListAvatar"
-            android:scaleType="centerInside"
-            android:src="@drawable/arrowright" />
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageButton7"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="clip_vertical|center_vertical"
+                android:contentDescription="@string/txtListAvatar"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrowleft" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/avatar1simple" />
+
+            <ImageButton
+                android:id="@+id/imageButton8"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/txtListAvatar"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrowright" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/txtSeleccionar" />
 
     </LinearLayout>
 

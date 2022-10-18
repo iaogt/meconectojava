@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class ConfigFactory {
 
-    public static void loadConfiguration(ValueEventListener postListener){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public static void loadConfiguration(FirebaseDatabase database, ValueEventListener postListener){
+
         DatabaseReference myRef = database.getReference("meconecto/configuracion");
         myRef.addValueEventListener(postListener);
     }

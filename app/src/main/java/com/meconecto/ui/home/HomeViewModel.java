@@ -4,18 +4,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.meconecto.data.Avatar;
 import com.meconecto.data.UserGameData;
 
 public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<UserGameData> userGData;
     private final MutableLiveData<String> userId;
-    private final MutableLiveData<String> avatar;
+    private final MutableLiveData<Avatar> avatar;
 
     public HomeViewModel() {
         userGData = new MutableLiveData<>();
         userId = new MutableLiveData<>();
-        avatar = new MutableLiveData<>();
+        avatar = new MutableLiveData<Avatar>();
     }
 
     public LiveData<UserGameData> getuserGData() {
@@ -34,9 +35,9 @@ public class HomeViewModel extends ViewModel {
         return userId;
     }
 
-    public LiveData<String> getAvatar() { return avatar;}
+    public LiveData<Avatar> getAvatar() { return avatar;}
 
-    public void setNomAvatar(String pAvatar){
+    public void setAvatar(Avatar pAvatar){
         avatar.setValue(pAvatar);
     }
 

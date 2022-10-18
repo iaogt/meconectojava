@@ -1,6 +1,7 @@
 package com.meconecto.ui.home;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.meconecto.FirstFragment;
 import com.meconecto.ListaDinamicas;
 import com.meconecto.MainActivity;
 import com.meconecto.R;
+import com.meconecto.data.Avatar;
 import com.meconecto.data.GameDataFac;
 import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.FragmentHomeBinding;
@@ -38,15 +40,20 @@ public class HomeFragment extends Fragment {
     TextView labelPunteo;
 
     ImageView avatar;
-    String nomAvatar;
+    Avatar nomAvatar;
     Long punteo;
     ImageButton btn2, btn3;
+    private MediaPlayer mpBack;
+
 
     class PunteoObserver implements Observer {
         @Override
         public void onChanged(Object o) {
             uGD = (UserGameData)o;
-            nomAvatar = uGD.getAvatar();
+            Avatar a = new Avatar();
+            a.setNombre(uGD.getNomAvatar());
+            a.setImgAvatar(uGD.getAvatar());
+            nomAvatar = a;
             punteo = uGD.getPunteo();
             updateHomeScreen();
         }
@@ -55,9 +62,8 @@ public class HomeFragment extends Fragment {
     class AvatarObserver implements Observer {
         @Override
         public void onChanged(Object o) {
-            nomAvatar = (String)o;
+            nomAvatar = (Avatar)o;
             System.out.println("cambio avatar");
-            System.out.println(nomAvatar);
             updateHomeScreen();
         }
     }
@@ -97,7 +103,7 @@ public class HomeFragment extends Fragment {
 
     public void updateHomeScreen(){
         List arrAvatar;
-        switch(nomAvatar){
+        switch(nomAvatar.getImgAvatar()){
             case "susan":{
                 arrAvatar = UserGameData.getAvatar1();
                 break;

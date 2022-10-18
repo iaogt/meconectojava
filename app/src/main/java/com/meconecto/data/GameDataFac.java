@@ -10,13 +10,12 @@ public class GameDataFac {
         return new UserGameData();
     }
 
-    public static void setUserGameData(String uid,UserGameData configData){
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    public static void setUserGameData(FirebaseDatabase database,String uid,UserGameData configData){
+        DatabaseReference mDatabase = database.getReference();
         mDatabase.child("usuarios").child(uid).setValue(configData);
     }
 
-    public static void cargaDataUsuario(String idUsuario,ValueEventListener postListener){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public static void cargaDataUsuario(FirebaseDatabase database,String idUsuario,ValueEventListener postListener){
         DatabaseReference myRef = database.getReference("usuarios/"+idUsuario);
 // [START post_value_event_listener]
         myRef.addValueEventListener(postListener);

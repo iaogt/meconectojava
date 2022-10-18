@@ -16,6 +16,7 @@ public class UserGameData {
     public String nivel;
     public String actividadesCompletadas;
     public String avatar;
+    public String nombreavatar;
 
     public final static String NOMNIVEL1 = "nivel1";
     public final static String NOMNIVEL2 = "nivel2";
@@ -32,15 +33,20 @@ public class UserGameData {
         nivel="nivel1";
         actividadesCompletadas="";
         avatar = "ana";
+        nombreavatar="";
     }
 
     public String getAvatar(){
         return avatar;
     }
 
-    public void setNomAvatar(String s){
+    public void setImgAvatar(String s){
         avatar = s;
     }
+
+    public String getNomAvatar(){ return nombreavatar; }
+
+    public void setNomAvatar(String s){ nombreavatar=s;}
 
     public void sumarPuntos(Long puntos){
         punteo = punteo + puntos;
@@ -85,6 +91,10 @@ public class UserGameData {
 
     public Map<String, String> getAmigos() {
         return amigos;
+    }
+
+    public void addAmigo(String a){
+        amigos.put(a,a);
     }
 
     public void setHerramientas(Map<String,Tool> tools){

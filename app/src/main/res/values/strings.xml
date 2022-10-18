@@ -4,7 +4,7 @@
     <string name="title_dashboard">Logros</string>
     <string name="title_notifications">Noticias</string>
     <string name="title_amigos">Amigos</string>
-    <string name="title_ranking">Ranking</string>
+    <string name="title_ranking">Padres</string>
     <string name="txtGrooming">Grooming</string>
     <string name="txtSexting">Sexting</string>
     <string name="txtSextortion">Sextortion</string>
@@ -51,4 +51,6 @@
     <string name="txtSeleccionar">Seleccionar</string>
     <string name="cambioNivel">Tu avatar subio de nivel!</string>
     <string name="txtVideo">Video</string>
+    <string name="nuevoAmigo">Nuevo amigo agregado</string>
+    <string name="txtNomAvatar">(Nombre de tu avatar)</string>
 </resources>

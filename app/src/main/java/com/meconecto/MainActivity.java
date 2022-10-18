@@ -3,18 +3,26 @@ package com.meconecto;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,6 +56,7 @@ import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.meconecto.data.AppConfiguration;
+import com.meconecto.data.Avatar;
 import com.meconecto.data.ConfigFactory;
 import com.meconecto.data.GameDataFac;
 import com.meconecto.data.MyUserFactory;
@@ -80,7 +89,7 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private ActivityMainBinding binding;
@@ -103,30 +112,48 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mpBack;
     private MediaPlayer mpButton;
 
+    private Boolean muestraVideo = false;
+
     public static final String APP_CONFIG = "com.meconecto.APP_CONFIG";
     public static final String APP_USERID = "com.meconecto.APP_USERID";
     public static final String APP_COMPLETED = "com.meconecto.APP_COMPLETED";
+    public static final String APP_DBREFERENCE = "com.meconecto.APP_DBREFERENCE";
+    public static final String APP_NAME = "com.meconecto.APP";
+
+    public FrameLayout capaVideo;
+    public VideoView objVideo;
 
     private ProgressBar progressBar;
     private int intProgresoCarga=0;
 
+    private FirebaseDatabase database;
+
+    private SharedPreferences localPrefs =null;
+
     class AvatarObserver implements Observer {
         @Override
         public void onChanged(Object o) {
-            String nomAvatar = (String)o;
-            userGData.setNomAvatar(nomAvatar);
-            GameDataFac.setUserGameData(userId,userGData);
+            Avatar nomAvatar = (Avatar)o;
+            userGData.setNomAvatar(nomAvatar.getNombre());
+            userGData.setImgAvatar(nomAvatar.getImgAvatar());
+            GameDataFac.setUserGameData(database,userId,userGData);
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        localPrefs = getSharedPreferences(APP_NAME,MODE_PRIVATE);
+        if(database==null) {
+            database = FirebaseDatabase.getInstance();
+            database.setPersistenceEnabled(true);
+        }
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        //mpBack = MediaPlayer.create(this, R.raw.backgroundsound2);
-        //mpBack.setVolume(Float.parseFloat("0.1"),Float.parseFloat("0.1"));
-        //mpBack.start();
-        //mpBack.setLooping(true);
+
+        mpBack = MediaPlayer.create(this, R.raw.loopdrums);
+        mpBack.setLooping(true); // Set looping
+        mpBack.setVolume(50, 50);
+
         mpButton = MediaPlayer.create(this, R.raw.soundbutton2);
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
@@ -138,7 +165,10 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("Venia de un deeplink");
                         if (pendingDynamicLinkData != null) {
                             deepLink = pendingDynamicLinkData.getLink();
-                            System.out.println(deepLink);
+                            String path = deepLink.getPath();
+                            if(path.indexOf("/addamigo/")>=0){ //para agregar amigo
+                                navegarAmigos(path);
+                            }
                         }
                     }
                 })
@@ -166,6 +196,10 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         progressBar = binding.progressBar;
+        capaVideo = binding.videoLoader;
+        objVideo = binding.firstVideo;
+
+
         this.getSupportActionBar().hide();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -207,6 +241,12 @@ public class MainActivity extends AppCompatActivity {
         this.loadJSONConfig();
     }
 
+    public void navegarAmigos(String p){
+        NavController nc = Navigation.findNavController(this,R.id.nav_host_fragment_activity_main);
+        nc.navigate(R.id.navigation_amigos);
+        amigosViewModel.setNuevoAmigo(p.replace("/addamigo/",""));
+    }
+
     public void addLoadProgress(int pr){
         intProgresoCarga=intProgresoCarga+pr;
         progressBar.setProgress(intProgresoCarga);
@@ -216,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("cargara usuario");
         System.out.println(userId);
         if(userId!=null) {
-            GameDataFac.cargaDataUsuario(userId, new ValueEventListener() {
+            GameDataFac.cargaDataUsuario(database,userId, new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // Get Post object and use the values to update the UI
@@ -228,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         userGData = GameDataFac.emptyGame();
                         userGData.setHerramientas(config.getTools());
-                        GameDataFac.setUserGameData(userId, userGData);
+                        GameDataFac.setUserGameData(database,userId, userGData);
                     }
                     addLoadProgress(25);
                     refrescaHome();
@@ -270,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enviarAListado(View view){
+        mpBack.stop();
         mpButton.start();
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
         intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
@@ -279,8 +320,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enviarAListado2(View view){
+        mpBack.stop();
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
-        intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
+        intent.putExtra(APP_CONFIG,config.getCategory("cyberdelitos"));
         intent.putExtra(APP_USERID,userId);
         intent.putExtra(APP_COMPLETED,completedActivs);
         startActivity(intent);
@@ -289,16 +331,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void enviarAListado3(View view){
+        mpBack.stop();
         Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
-        intent.putExtra(APP_CONFIG,config.getCategory("cyberseguridad"));
+        intent.putExtra(APP_CONFIG,config.getCategory("enaccion"));
         intent.putExtra(APP_USERID,userId);
         intent.putExtra(APP_COMPLETED,completedActivs);
         startActivity(intent);
     }
 
     public void loadJSONConfig(){
+        System.out.println("cargara el JSON");
         // [START post_value_event_listener]
-        ConfigFactory.loadConfiguration(new ValueEventListener() {
+        ConfigFactory.loadConfiguration(database,new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -309,6 +353,8 @@ public class MainActivity extends AppCompatActivity {
                 downloadActivities();
                 // ..
             }
+
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -324,6 +370,36 @@ public class MainActivity extends AppCompatActivity {
         if(cargoConfig&&cargoUserData){
             LinearLayout cargador = findViewById(R.id.layoutLoader);
             cargador.setVisibility(View.GONE);
+            if(localPrefs.getBoolean("firstrun",true)){
+                muestraVideo=true;
+
+                capaVideo.setVisibility(View.VISIBLE);
+                objVideo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        muestraVideo=false;
+                        capaVideo.setVisibility(View.INVISIBLE);
+                        mpBack.start();
+                    }
+                });
+                objVideo.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" +R.raw.video_inicio));
+                MediaController mediaController = new MediaController(this);
+                mediaController.setAnchorView(objVideo);
+                objVideo.setMediaController(mediaController);
+                mediaController.setMediaPlayer(objVideo);
+                objVideo.requestFocus();
+                objVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mediaPlayer) {
+                        mediaController.setAnchorView(objVideo);
+                    }
+                });
+                objVideo.start();
+                localPrefs.edit().putBoolean("firstrun",false).commit();
+            }else {
+                capaVideo.setVisibility(View.INVISIBLE);
+                mpBack.start();
+            }
         }
     }
 
@@ -339,16 +415,15 @@ public class MainActivity extends AppCompatActivity {
     public void downloadAndSave(ArrayList<Url4Download> al){
         Url4Download myurl = al.remove(al.size()-1);
         try {
-            FileOutputStream fos = this.getBaseContext().openFileOutput(myurl.getID() + "_content.html", Context.MODE_PRIVATE);
-            readOnlineFile(myurl.getUrl(), fos, myurl.getID());
+            readOnlineFile(myurl.getUrl(), myurl.getID());
             if(al.size()>0)
                 downloadAndSave(al);
-        }catch(FileNotFoundException e){
+        }catch(Exception e){
             System.out.println("Error al abrir el archivo");
         }
     }
 
-    private void readOnlineFile(String strUrl,FileOutputStream dir,String actId){
+    private void readOnlineFile(String strUrl,String actId){
         new Thread(new Runnable(){
 
             public void run(){
@@ -372,10 +447,15 @@ public class MainActivity extends AppCompatActivity {
                         while ((str = in.readLine()) != null) {
                             finalStr += str + '\n';
                         }
-                        dir.write(finalStr.getBytes());
-                        dir.close();
+                        if(!finalStr.isEmpty()) {
+                            FileOutputStream fos = getBaseContext().openFileOutput(actId + "_content.html", Context.MODE_PRIVATE);
+                            fos.write(finalStr.getBytes());
+                            fos.close();
+                        }
+
                         in.close();
                     }
+
                 } catch (Exception e) {
                     System.out.println("Error al grabar archivos");
                     System.out.println(e);
@@ -393,18 +473,54 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
+    public void restartSound(){
+        if(mpBack!=null) {
+            mpBack.setOnPreparedListener(this);
+            //mpBack.prepareAsync();
+        }
+    }
+
+    public void onPrepared(MediaPlayer m){
+        m.start();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         //updateUI(currentUser);
+        //restartSound();
         userId = userFac.getCurrentUser();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        mpBack.stop();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mpBack.stop();
+    }
+
+    public void onRestart(){
+        super.onRestart();
+        //restartSound();
     }
 
     @Override
     public void onResume(){
         super.onResume();
+        //restartSound();
         cargarUsuario();
+
+//        mpBack.start();
+    }
+
+    public FirebaseDatabase getDB(){
+        return database;
     }
 
 }

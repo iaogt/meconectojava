@@ -19,23 +19,32 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.meconecto.AmigosAdapter;
 import com.meconecto.CustomAdapter;
 import com.meconecto.FirstFragment;
+import com.meconecto.MainActivity;
 import com.meconecto.R;
 import com.meconecto.data.Actividad;
+import com.meconecto.data.GameDataFac;
 import com.meconecto.data.UserGameData;
 import com.meconecto.databinding.FragmentAmigosBinding;
 import com.meconecto.ui.amigos.AmigosViewModel;
 import com.meconecto.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class AmigosFragment extends Fragment {
 
@@ -44,6 +53,12 @@ public class AmigosFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     private ArrayList<String> amigos;
     private String userId;
+    private String nuevoAmigo;
+    private AmigosViewModel amigosModel;
+    private UserGameData uGD;
+    private HomeViewModel homeModel;
+    private List<HashMap<String,String>> dAmigos;
+    private AmigosAdapter objAmigosAdapter;
 
 
 
@@ -51,32 +66,29 @@ public class AmigosFragment extends Fragment {
         @Override
         public void onChanged(Object o) {
             System.out.println("Si se disparó amigoobserver");
-            UserGameData uGD = (UserGameData)o;
-            for(String a: uGD.getAmigos().values()){
-                amigos.add(a);
-            }
-            refreshList();
+            uGD = (UserGameData)o;
+            makeFriendsList();
         }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeModel =
+        dAmigos = new ArrayList<>();
+        homeModel =
                 new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        amigosModel =
+                new ViewModelProvider(requireActivity()).get(AmigosViewModel.class);
 
         amigos = new ArrayList<String>();
 
         binding = FragmentAmigosBinding.inflate(inflater, container, false);
 
         lista = binding.listaAmigos;
+        layoutManager = new LinearLayoutManager(getContext());
         lista.setLayoutManager((layoutManager));
 
-        lista.setAdapter(new AmigosListAdapter(amigos, new AmigosListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(String a) {
-                System.out.println("Dio click a la fila "+a);
-            }
-        }));
+        objAmigosAdapter = new AmigosAdapter(dAmigos);
+        lista.setAdapter(objAmigosAdapter);
 
         binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +106,55 @@ public class AmigosFragment extends Fragment {
                 userId = s;
             }
         });
+        amigosModel.getNuevoAmigo().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                nuevoAmigo = s;
+                cargarNuevo();
+            }
+        });
         return root;
+    }
+
+    public void makeFriendsList(){
+        for(String a: uGD.getAmigos().values()){
+            amigos.add(a);
+            GameDataFac.cargaDataUsuario(((MainActivity)getActivity()).getDB(),a,new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    HashMap<String,Integer> arrAvatares = new HashMap<>();
+                    arrAvatares.put("ana",R.drawable.ana1);
+                    arrAvatares.put("jose",R.drawable.jose1);
+                    arrAvatares.put("susan",R.drawable.susan1);
+                    arrAvatares.put("mama",R.drawable.mama1);
+                    arrAvatares.put("papa",R.drawable.papa1);
+                    arrAvatares.put("abuelo",R.drawable.abuelo1);
+                    arrAvatares.put("afro",R.drawable.afro1);
+                    UserGameData userGData = dataSnapshot.getValue(UserGameData.class);
+                    HashMap<String,String> ams = new HashMap<>();
+                    ams.put("nombre",arrAvatares.get(userGData.getNomAvatar()).toString());
+                    ams.put("punteo","Punteo: "+userGData.getPunteo().toString());
+                    ams.put("img",arrAvatares.get(userGData.getAvatar()).toString());
+                    dAmigos.add(ams);
+                    objAmigosAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                    System.out.println("Sucedió un error con la bd al cargar el usuario");
+                }
+            });
+        }
+        refreshList();
+    }
+
+    public void cargarNuevo(){
+        uGD.addAmigo(nuevoAmigo);
+        makeFriendsList();
+        GameDataFac.setUserGameData(((MainActivity)getActivity()).getDB(),userId,uGD);
+        Toast toast = Toast.makeText(this.getContext(),R.string.nuevoAmigo,Toast.LENGTH_LONG);
+        toast.show();
     }
 
     public void refreshList(){
@@ -102,6 +162,9 @@ public class AmigosFragment extends Fragment {
         if(amigos.size()<=0){
             final TextView textView = binding.textView5;
             textView.setText(R.string.txtNoAmigos);
+        }else{
+            final TextView textView = binding.textView5;
+            textView.setText("");
         }
     }
 

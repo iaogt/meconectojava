@@ -67,6 +67,15 @@ public class FirstFragment extends Fragment {
         public void onChanged(Object o) {
             System.out.println("Vinieron las cats");
             c = (Categoria) o;
+            if(c.getNombre().compareTo("Informado")==0){
+                lstVideos = Arrays.asList("android.resource://" + requireActivity().getPackageName() + "/" +R.raw.v6,"http://webymovil.com/svet/videos/7.mp4","http://webymovil.com/svet/videos/8.mp4","http://webymovil.com/svet/videos/9.mp4");
+                vw.setVideoURI(Uri.parse(lstVideos.get(0)));
+                vw.setBackgroundResource(R.drawable.thumb_videoa);
+                btnVideo1.setBackgroundResource(R.drawable.thumb_videoa);
+                btnVideo2.setBackgroundResource(R.drawable.thumb_videon);
+                btnVideo3.setBackgroundResource(R.drawable.thumb_videoc);
+                btnVideo4.setBackgroundResource(R.drawable.thumb_videod);
+            }
             HashMap<String,Actividad> listAct = c.getActividades();
             ArrayList<String> sortedKeys
                     = new ArrayList<String>(listAct.keySet());
@@ -111,7 +120,7 @@ public class FirstFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        lstVideos = Arrays.asList("android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming,"android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming,"android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming,"android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming);
+        lstVideos = Arrays.asList("android.resource://" + requireActivity().getPackageName() + "/" +R.raw.videogrooming,"http://webymovil.com/svet/videos/3.mp4","http://webymovil.com/svet/videos/4.mp4","http://webymovil.com/svet/videos/5.mp4");
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, FirstFragment.this.getClass().getSimpleName());
@@ -143,7 +152,7 @@ public class FirstFragment extends Fragment {
         btnVideo4 = binding.imageButton12;
         btnVideo4.setTag(3);
         vw = (VideoView)binding.videoView2;
-        vw.setBackgroundResource(R.drawable.videocyber);
+        vw.setBackgroundResource(R.drawable.thumb_video2);
         vw.setVideoURI(Uri.parse(lstVideos.get(0)));
         MediaController mediaController = new MediaController(this.getContext());
         mediaController.setAnchorView(vw);
@@ -156,6 +165,16 @@ public class FirstFragment extends Fragment {
                 mediaController.setAnchorView(vw);
             }
         });
+        vw.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                    vw.setBackground(null);
+                    return true;
+                }
+                return false;
+            }
+        });
         View.OnClickListener lst = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,10 +184,18 @@ public class FirstFragment extends Fragment {
                 vw.start();
             }
         };
+        View.OnClickListener lst2 = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer t = (Integer)v.getTag();
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
+                    startActivity(browserIntent);
+            }
+        };
         btnVideo1.setOnClickListener(lst);
-        btnVideo2.setOnClickListener(lst);
-        btnVideo3.setOnClickListener(lst);
-        btnVideo4.setOnClickListener(lst);
+        btnVideo2.setOnClickListener(lst2);
+        btnVideo3.setOnClickListener(lst2);
+        btnVideo4.setOnClickListener(lst2);
 
 
         adapterActividades = new CustomAdapter(datos, new CustomAdapter.OnItemClickListener() {
