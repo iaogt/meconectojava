@@ -53,4 +53,8 @@
     <string name="txtVideo">Video</string>
     <string name="nuevoAmigo">Nuevo amigo agregado</string>
     <string name="txtNomAvatar">(Nombre de tu avatar)</string>
+    <string name="txtGuiaPadres">Guía para padres</string>
+    <string name="txtAmigaSvet">Comunícate con Tu Amiga SVET. Puedes contactarnos via whatsapp o messenger enviando la palabra AMIGA.</string>
+    <string name="txtWhatsapp">Whatsapp Amiga SVET</string>
+    <string name="txtMessger">Messger Amiga SVET</string>
 </resources>

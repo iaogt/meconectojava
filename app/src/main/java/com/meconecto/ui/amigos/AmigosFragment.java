@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -47,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AmigosFragment extends Fragment {
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private FragmentAmigosBinding binding;
     RecyclerView lista;
@@ -73,6 +75,13 @@ public class AmigosFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, AmigosFragment.this.getClass().getSimpleName());
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, AmigosFragment.this.getClass().getSimpleName());
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
+
         dAmigos = new ArrayList<>();
         homeModel =
                 new ViewModelProvider(requireActivity()).get(HomeViewModel.class);

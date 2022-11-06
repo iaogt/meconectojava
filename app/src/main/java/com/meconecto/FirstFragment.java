@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -187,9 +188,35 @@ public class FirstFragment extends Fragment {
         View.OnClickListener lst2 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String[] lst = completedActivs.split(",");
                 Integer t = (Integer)v.getTag();
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
-                    startActivity(browserIntent);
+                if(t.intValue()==1){
+                    if(lst.length>=1 && !lst[0].isEmpty()){
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
+                        startActivity(browserIntent);
+                    }else{
+                        Toast toa = Toast.makeText(getContext(),"Debe completar al menos una actividad",Toast.LENGTH_LONG);
+                        toa.show();
+                    }
+                }
+                if(t.intValue()==2){
+                    if(lst.length>=3){
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
+                        startActivity(browserIntent);
+                    }else{
+                        Toast toa = Toast.makeText(getContext(),"Debe completar al menos 3 actividades",Toast.LENGTH_LONG);
+                        toa.show();
+                    }
+                }
+                if(t.intValue()==3){
+                    if(lst.length>=5){
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
+                        startActivity(browserIntent);
+                    }else{
+                        Toast toa = Toast.makeText(getContext(),"Debe completar al menos 5 actividades",Toast.LENGTH_LONG);
+                        toa.show();
+                    }
+                }
             }
         };
         btnVideo1.setOnClickListener(lst);
@@ -221,14 +248,14 @@ public class FirstFragment extends Fragment {
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
         String[] lst = completedActivs.split(",");
         System.out.println(lst.length);
-        btnVideo2.setEnabled(false);
+        //btnVideo2.setEnabled(false);
         btnVideo2.setAlpha(Float.parseFloat("0.5"));
-        btnVideo3.setEnabled(false);
+        //btnVideo3.setEnabled(false);
         btnVideo3.setAlpha(Float.parseFloat("0.5"));
-        btnVideo4.setEnabled(false);
+        //btnVideo4.setEnabled(false);
         btnVideo4.setAlpha(Float.parseFloat("0.5"));
         if((lst.length>=1)){
-            btnVideo2.setEnabled(true);
+            //btnVideo2.setEnabled(true);
             btnVideo2.setAlpha(Float.parseFloat("1.0"));
         }
         if((lst.length>=3)){

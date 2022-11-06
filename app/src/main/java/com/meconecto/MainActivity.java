@@ -370,19 +370,19 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
         if(cargoConfig&&cargoUserData){
             LinearLayout cargador = findViewById(R.id.layoutLoader);
             cargador.setVisibility(View.GONE);
-            if(localPrefs.getBoolean("firstrun",true)){
-                muestraVideo=true;
+            if(localPrefs.getBoolean("firstrun",true)) {
+                muestraVideo = true;
 
                 capaVideo.setVisibility(View.VISIBLE);
                 objVideo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                        muestraVideo=false;
+                        muestraVideo = false;
                         capaVideo.setVisibility(View.INVISIBLE);
                         mpBack.start();
                     }
                 });
-                objVideo.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" +R.raw.video_inicio));
+                objVideo.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video_inicio));
                 MediaController mediaController = new MediaController(this);
                 mediaController.setAnchorView(objVideo);
                 objVideo.setMediaController(mediaController);
@@ -394,10 +394,11 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
                         mediaController.setAnchorView(objVideo);
                     }
                 });
+                capaVideo.setVisibility(View.VISIBLE);
                 objVideo.start();
-                localPrefs.edit().putBoolean("firstrun",false).commit();
+                localPrefs.edit().putBoolean("firstrun", false).commit();
             }else {
-                capaVideo.setVisibility(View.INVISIBLE);
+                //capaVideo.setVisibility(View.INVISIBLE);
                 mpBack.start();
             }
         }

@@ -184,19 +184,23 @@ public class UserGameData {
     }
 
     public static List getAvatar5(){
-        return Arrays.asList(R.drawable.avatarmama,R.drawable.avatarmama2,R.drawable.avatarmama3,R.drawable.avatarmama4,R.drawable.avatarmama5,R.drawable.avatarmama6);
+        return Arrays.asList(R.drawable.avatarluisa,R.drawable.avatarluisa2,R.drawable.avatarluisa3,R.drawable.avatarluisa4,R.drawable.avatarluisa5,R.drawable.avatarluisa6);
     }
 
     public static List getAvatar6(){
-        return Arrays.asList(R.drawable.avatarpapa,R.drawable.avatarpapa2,R.drawable.avatarpapa3,R.drawable.avatarpapa4,R.drawable.avatarpapa5,R.drawable.avatarpapa6);
+        return Arrays.asList(R.drawable.avatarmama,R.drawable.avatarmama2,R.drawable.avatarmama3,R.drawable.avatarmama4,R.drawable.avatarmama5,R.drawable.avatarmama6);
     }
 
     public static List getAvatar7(){
+        return Arrays.asList(R.drawable.avatarpapa,R.drawable.avatarpapa2,R.drawable.avatarpapa3,R.drawable.avatarpapa4,R.drawable.avatarpapa5,R.drawable.avatarpapa6);
+    }
+
+    public static List getAvatar8(){
         return Arrays.asList(R.drawable.avatarabuelo,R.drawable.avatarabuelo2,R.drawable.avatarabuelo3,R.drawable.avatarabuelo4,R.drawable.avatarabuelo5,R.drawable.avatarabuelo6);
     }
 
     public static List getNomAvatars(){
-        return Arrays.asList("susan","jose","afro","ana","mama","papa","abuelo");
+        return Arrays.asList("susan","jose","afro","ana","luisa","mama","papa","abuelo");
     }
 
 

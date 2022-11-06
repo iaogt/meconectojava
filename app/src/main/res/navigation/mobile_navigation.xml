@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_selectAvatar"
-            app:destination="@id/selectAvatar" />
+            app:destination="@id/selectAvatar"/>
     </fragment>
 
     <fragment
@@ -40,5 +40,9 @@
         android:id="@+id/selectAvatar"
         android:name="com.meconecto.ui.SelectAvatar"
         android:label="fragment_select_avatar"
-        tools:layout="@layout/fragment_select_avatar" />
+        tools:layout="@layout/fragment_select_avatar" >
+        <argument
+            android:name="avatarName"
+            app:argType="string" />
+    </fragment>
 </navigation>

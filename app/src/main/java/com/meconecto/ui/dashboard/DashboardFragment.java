@@ -11,12 +11,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.meconecto.R;
 import com.meconecto.databinding.FragmentDashboardBinding;
+import com.meconecto.ui.amigos.AmigosFragment;
 
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private FragmentDashboardBinding binding;
     RecyclerView lista;
@@ -27,6 +30,11 @@ public class DashboardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, DashboardFragment.this.getClass().getSimpleName());
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, DashboardFragment.this.getClass().getSimpleName());
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
         DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
 

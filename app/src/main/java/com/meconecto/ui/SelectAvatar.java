@@ -3,6 +3,7 @@ package com.meconecto.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -14,11 +15,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.meconecto.MainActivity;
 import com.meconecto.R;
 import com.meconecto.data.Avatar;
+import com.meconecto.data.GameDataFac;
 import com.meconecto.data.UserGameData;
 import com.meconecto.ui.home.HomeFragment;
 import com.meconecto.ui.home.HomeViewModel;
+import com.meconecto.ui.ranking.RankingFragment;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -44,10 +49,21 @@ public class SelectAvatar extends Fragment {
     private ImageView objImg;
     private ArrayList<List> arrAvatares;
     private HomeViewModel homeViewModel;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private EditText txtNomAvatar;
+
 
     public SelectAvatar() {
         // Required empty public constructor
     }
+    class AvatarObserver implements Observer {
+        @Override
+        public void onChanged(Object o) {
+            Avatar nomAvatar = (Avatar)o;
+            updateName(nomAvatar.getNombre());
+        }
+    }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -70,6 +86,13 @@ public class SelectAvatar extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, SelectAvatar.this.getClass().getSimpleName());
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, SelectAvatar.this.getClass().getSimpleName());
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -83,6 +106,7 @@ public class SelectAvatar extends Fragment {
         arrAvatares.add(UserGameData.getAvatar5());
         arrAvatares.add(UserGameData.getAvatar6());
         arrAvatares.add(UserGameData.getAvatar7());
+        arrAvatares.add(UserGameData.getAvatar8());
 
     }
 
@@ -93,8 +117,13 @@ public class SelectAvatar extends Fragment {
         homeViewModel =
                 new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
+        homeViewModel.getAvatar().observe(getViewLifecycleOwner(), new SelectAvatar.AvatarObserver());
+
+
         View v =  inflater.inflate(R.layout.fragment_select_avatar, container, false);
-        EditText txtNomAvatar = v.findViewById(R.id.inputNomAvatar);
+        txtNomAvatar = v.findViewById(R.id.inputNomAvatar);
+        String x = getArguments().getString("avatarName");
+        txtNomAvatar.setText(x);
         objImg = (ImageView) v.findViewById(R.id.imageView10);
         ImageButton bl = (ImageButton) v.findViewById(R.id.imageButton7);
         ImageButton br = (ImageButton) v.findViewById(R.id.imageButton8);
@@ -127,6 +156,10 @@ public class SelectAvatar extends Fragment {
         });
 
         return v;
+    }
+
+    public void updateName(String s){
+        txtNomAvatar.setText(s);
     }
 
     public void izqImg(){
