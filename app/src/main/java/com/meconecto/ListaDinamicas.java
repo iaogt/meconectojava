@@ -117,12 +117,13 @@ public class ListaDinamicas extends AppCompatActivity {
             for (Map.Entry<String, Actividad> entry : appC.getActividades().entrySet()) {
                 ids.add(entry.getValue().getId());
             }
-            String logros = userGData.checkLogros(ids);
-            ArrayList<String> newArrLogros = new ArrayList<String>(Arrays.asList(logros.split(",")));
+            ArrayList<String> newArrLogros = userGData.checkLogros(ids);
             ArrayList<String> currentLogros = userGData.getArrLogros();
             newArrLogros.removeAll(currentLogros);
             if (newArrLogros.size() > 0 && newArrLogros.get(0)!="") {  //Si hay nuevos logros entonces hay mas de 0
                 Log.i("meconecto:","nuevo logro");
+                Log.i("meconecto:",newArrLogros.get(0));
+                System.out.println(newArrLogros);
                 Modal3 m = new Modal3();
                 m.setDataLogro(userGData.getLogroData(newArrLogros.get(0)));
                 m.setCerrarClick(new View.OnClickListener() {
@@ -132,7 +133,15 @@ public class ListaDinamicas extends AppCompatActivity {
                     }
                 });
                 m.show(this.getSupportFragmentManager(), Modal1.TAG);
-                userGData.setLogros(logros);
+                String logros = currentLogros.toString();
+                logros = logros.replace("[", "")
+                        .replace("]", "")
+                        .replace(" ", "");
+                String lg2 =newArrLogros.toString();
+                lg2 = lg2.replace("[", "")
+                        .replace("]", "")
+                        .replace(" ", "");
+                userGData.setLogros(logros+","+lg2);
                 GameDataFac.setUserGameData(mData,userId,userGData);
             }
         }

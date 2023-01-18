@@ -141,15 +141,15 @@ public class UserGameData {
         return result;
     }
 
-    public String checkLogros(ArrayList<String> idsActivs){
-        String strLogros = "";
+    public ArrayList checkLogros(ArrayList<String> idsActivs){
+        ArrayList logros = new ArrayList();
         if(checkLogro1()){
-            strLogros = strLogros.concat("logro1");
+            logros.add("logro1");
         }
         if(checkLogro2(idsActivs)){
-            strLogros = strLogros.concat(",logro2");
+            logros.add("logro2");
         }
-        return strLogros;
+        return logros;
     }
 
     public String getLogros(){
@@ -167,11 +167,11 @@ public class UserGameData {
     public HashMap<String,String> getLogroData(String nomLogro){
         HashMap<String,HashMap<String,String>> collLogros = new HashMap<>();
         HashMap<String,String> logro1 = new HashMap<>();
-        logro1.put("nombre","Kinder");
+        logro1.put("nombre","Primera Actividad");
         logro1.put("imagen", String.valueOf(R.drawable.insignia1));
         collLogros.put("logro1",logro1);
         HashMap<String,String> logro2 = new HashMap<>();
-        logro2.put("nombre","Kinder");
+        logro2.put("nombre","Categoria completa");
         logro2.put("imagen", String.valueOf(R.drawable.insignia2));
         collLogros.put("logro2",logro2);
         return collLogros.get(nomLogro);

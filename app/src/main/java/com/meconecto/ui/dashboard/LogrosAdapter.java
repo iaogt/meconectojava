@@ -11,13 +11,14 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.meconecto.R;
+import com.meconecto.data.IconLogro;
 import com.meconecto.ui.amigos.AmigosListAdapter;
 
 import java.util.ArrayList;
 
 public class LogrosAdapter extends RecyclerView.Adapter<LogrosAdapter.ViewHolder> {
 
-    private ArrayList<String> localDataSet;
+    private ArrayList<IconLogro> localDataSet;
     private final LogrosAdapter.OnItemClickListener mylistener;
 
 
@@ -39,12 +40,14 @@ public class LogrosAdapter extends RecyclerView.Adapter<LogrosAdapter.ViewHolder
             return thumbLogro;
         }
 
-        public void configurar(int idImg, final LogrosAdapter.OnItemClickListener mlistener){
-            thumbLogro.setImageResource(idImg);
-            ColorMatrix matrix = new ColorMatrix();
-            matrix.setSaturation(0);  //0 means grayscale
-            ColorMatrixColorFilter cf = new ColorMatrixColorFilter(matrix);
-            thumbLogro.setColorFilter(cf);
+        public void configurar(IconLogro idImg, final LogrosAdapter.OnItemClickListener mlistener){
+            thumbLogro.setImageResource(Integer.parseInt(idImg.imagen));
+            if(idImg.estado=="i") {
+                ColorMatrix matrix = new ColorMatrix();
+                matrix.setSaturation(0);  //0 means grayscale
+                ColorMatrixColorFilter cf = new ColorMatrixColorFilter(matrix);
+                thumbLogro.setColorFilter(cf);
+            }
             /*itemView.setOnClickListener(new View.OnClickListener(){
                 @Override public void onClick(View v){
                     mlistener.onItemClick(txt);
@@ -53,7 +56,7 @@ public class LogrosAdapter extends RecyclerView.Adapter<LogrosAdapter.ViewHolder
         }
     }
 
-    public LogrosAdapter(ArrayList<String> dataSet, LogrosAdapter.OnItemClickListener listener){
+    public LogrosAdapter(ArrayList<IconLogro> dataSet, LogrosAdapter.OnItemClickListener listener){
         localDataSet=dataSet;
         mylistener = listener;
     }
@@ -75,7 +78,7 @@ public class LogrosAdapter extends RecyclerView.Adapter<LogrosAdapter.ViewHolder
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.configurar(Integer.parseInt(localDataSet.get(position)),mylistener);
+        viewHolder.configurar(localDataSet.get(position),mylistener);
 
     }
 
