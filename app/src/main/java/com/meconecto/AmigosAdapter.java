@@ -1,6 +1,7 @@
 package com.meconecto;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,15 +59,15 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        System.out.println("mostrara");
-        System.out.println(position);
+        Log.i("meconecto:","mostrara");
+        Log.i("meconecto:",String.valueOf(position));
         holder.configurar(localDataSet.get(position));
     }
 
     @Override
     public int getItemCount() {
-        System.out.println("tiene:");
-        System.out.println(localDataSet.size());
+        Log.i("meconecto:","tiene:");
+        Log.i("meconecto:",String.valueOf(localDataSet.size()));
         return localDataSet.size();
     }
 }

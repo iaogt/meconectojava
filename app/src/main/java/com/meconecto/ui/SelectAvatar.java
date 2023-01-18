@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,8 +149,14 @@ public class SelectAvatar extends Fragment {
                 List<String> lstAvatares = UserGameData.getNomAvatars();
                 Avatar a = new Avatar();
                 a.setImgAvatar(lstAvatares.get(numImg.intValue()));
-                a.setNombre(txtNomAvatar.getText().toString().replace(getResources().getString(R.string.txtNomAvatar),""));
+                String nomFinalAvatar =txtNomAvatar.getText().toString().replace(getResources().getString(R.string.txtNomAvatar),"");
+                if(nomFinalAvatar.isEmpty()){
+                    nomFinalAvatar = lstAvatares.get(numImg.intValue());
+                }
+                a.setNombre(nomFinalAvatar);
+                Log.i("meconecto:","Cambiara avatar");
                 homeViewModel.setAvatar(a);
+                Log.i("meconecto:","cambio avatar");
                 NavHostFragment.findNavController(SelectAvatar.this).popBackStack();
 
             }

@@ -2,7 +2,9 @@ package com.meconecto.ui.home;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +72,7 @@ public class HomeFragment extends Fragment {
         @Override
         public void onChanged(Object o) {
             nomAvatar = (Avatar)o;
-            System.out.println("cambio avatar");
+            Log.i("meconecto:","cambio avatar");
             updateHomeScreen();
         }
     }
@@ -88,6 +90,14 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        ImageView logo = (ImageView)binding.imageView;
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://meconectosinclavos.net.gt"));
+                startActivity(browserIntent);
+            }
+        });
         avatar = (ImageView) binding.imageView4;
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +149,7 @@ public class HomeFragment extends Fragment {
 
     public void updateHomeScreen(){
         List arrAvatar;
+        binding.textView13.setText(nomAvatar.getNombre());
         switch(nomAvatar.getImgAvatar()){
             case "susan":{
                 arrAvatar = UserGameData.getAvatar1();
@@ -173,7 +184,7 @@ public class HomeFragment extends Fragment {
                 break;
             }
             default:{
-                System.out.println("usara el default");
+                Log.i("meconecto:","usara el default");
                 arrAvatar = UserGameData.getAvatar1();
                 break;
             }
@@ -186,7 +197,8 @@ public class HomeFragment extends Fragment {
         niveles.put("nivel5",4);
         niveles.put("nivel6",5);
         niveles.put("nivel7",6);
-        System.out.println("wowow");
+        Log.i("meconecto:","wowow:");
+        Log.i("meconecto:",nomAvatar.getImgAvatar());
         binding.imageView4.setImageResource((int)arrAvatar.get(niveles.get(uGD.nivel)));
         if(niveles.get(uGD.nivel)>=1){
             btn2.setAlpha(Float.parseFloat("1.0"));

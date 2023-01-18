@@ -6,6 +6,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,7 @@ public class FirstFragment extends Fragment {
     class DatosObserver implements Observer {
         @Override
         public void onChanged(Object o) {
-            System.out.println("Vinieron las cats");
+            Log.i("meconecto:","Vinieron las cats");
             c = (Categoria) o;
             if(c.getNombre().compareTo("Informado")==0){
                 lstVideos = Arrays.asList("android.resource://" + requireActivity().getPackageName() + "/" +R.raw.v6,"http://webymovil.com/svet/videos/7.mp4","http://webymovil.com/svet/videos/8.mp4","http://webymovil.com/svet/videos/9.mp4");
@@ -98,7 +99,7 @@ public class FirstFragment extends Fragment {
     class DatosObserver2 implements Observer {
         @Override
         public void onChanged(Object o) {
-            System.out.println("vinieron las completadas");
+            Log.i("meconecto:","vinieron las completadas");
             String d = (String) o;
             completedActivs = d;
             if(datos.size()>0){
@@ -191,9 +192,13 @@ public class FirstFragment extends Fragment {
                 String[] lst = completedActivs.split(",");
                 Integer t = (Integer)v.getTag();
                 if(t.intValue()==1){
-                    if(lst.length>=1 && !lst[0].isEmpty()){
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
-                        startActivity(browserIntent);
+                    if(lst.length>=1 && !lst[lst.length-1].isEmpty()){
+                        vw.setBackground(null);
+                        vw.setVideoURI(Uri.parse(lstVideos.get(t.intValue())));
+                        vw.start();
+                        //verVideo(lstVideos.get(t.intValue()));
+                        /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
+                        startActivity(browserIntent);*/
                     }else{
                         Toast toa = Toast.makeText(getContext(),"Debe completar al menos una actividad",Toast.LENGTH_LONG);
                         toa.show();
@@ -201,8 +206,9 @@ public class FirstFragment extends Fragment {
                 }
                 if(t.intValue()==2){
                     if(lst.length>=3){
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
-                        startActivity(browserIntent);
+                        vw.setBackground(null);
+                        vw.setVideoURI(Uri.parse(lstVideos.get(t.intValue())));
+                        vw.start();
                     }else{
                         Toast toa = Toast.makeText(getContext(),"Debe completar al menos 3 actividades",Toast.LENGTH_LONG);
                         toa.show();
@@ -210,8 +216,9 @@ public class FirstFragment extends Fragment {
                 }
                 if(t.intValue()==3){
                     if(lst.length>=5){
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(lstVideos.get(t.intValue())));
-                        startActivity(browserIntent);
+                        vw.setBackground(null);
+                        vw.setVideoURI(Uri.parse(lstVideos.get(t.intValue())));
+                        vw.start();
                     }else{
                         Toast toa = Toast.makeText(getContext(),"Debe completar al menos 5 actividades",Toast.LENGTH_LONG);
                         toa.show();
@@ -241,13 +248,19 @@ public class FirstFragment extends Fragment {
 
     }
 
+    public void verVideo(String v){
+        firstViewModel.setVideoSelected(v);
+        NavHostFragment.findNavController(FirstFragment.this)
+                .navigate(R.id.action_FirstFragment_to_VideoWeb);
+    }
+
     public void actualizaVideos(){
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);
-        System.out.println("Se actualizan los videos");
+        Log.i("meconecto:","Se actualizan los videos");
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
         String[] lst = completedActivs.split(",");
-        System.out.println(lst.length);
+        Log.i("meconecto:",String.valueOf(lst.length));
         //btnVideo2.setEnabled(false);
         btnVideo2.setAlpha(Float.parseFloat("0.5"));
         //btnVideo3.setEnabled(false);

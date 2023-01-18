@@ -1,5 +1,8 @@
 package com.meconecto;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -7,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -52,6 +56,7 @@ public class ListaDinamicas extends AppCompatActivity {
 
     private FirebaseDatabase mData;
 
+    private SharedPreferences localPrefs =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +64,16 @@ public class ListaDinamicas extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         binding = ActivityListaDinamicasBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        if(mData==null){
+        if (mData == null) {
             mData = FirebaseDatabase.getInstance();
         }
+        localPrefs = getSharedPreferences(MainActivity.APP_NAME, MODE_PRIVATE);
 
         setSupportActionBar(binding.toolbar);
 
         userId = getIntent().getStringExtra(MainActivity.APP_USERID);
         appC = (Categoria) getIntent().getSerializableExtra(MainActivity.APP_CONFIG);
-        String completedActivs = (String)getIntent().getSerializableExtra(MainActivity.APP_COMPLETED);
+        String completedActivs = (String) getIntent().getSerializableExtra(MainActivity.APP_COMPLETED);
 
         firstViewModel = new ViewModelProvider(this).get(FirstFragmentModel.class);
         firstViewModel.setCompletedActivs(completedActivs);
@@ -86,6 +92,19 @@ public class ListaDinamicas extends AppCompatActivity {
             }
         });*/
         ponerTitulo();
+        if (localPrefs.getBoolean(appC.getNombre()+"firstrun", true)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.mirarvideos)
+                    .setPositiveButton(R.string.btnOk, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // START THE GAME!
+                        }
+                    });
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+            localPrefs.edit().putBoolean(appC.getNombre()+"firstrun", false).commit();
+        }
     }
 
     public void ponerTitulo(){
@@ -103,7 +122,7 @@ public class ListaDinamicas extends AppCompatActivity {
             ArrayList<String> currentLogros = userGData.getArrLogros();
             newArrLogros.removeAll(currentLogros);
             if (newArrLogros.size() > 0 && newArrLogros.get(0)!="") {  //Si hay nuevos logros entonces hay mas de 0
-                System.out.println("nuevo logro");
+                Log.i("meconecto:","nuevo logro");
                 Modal3 m = new Modal3();
                 m.setDataLogro(userGData.getLogroData(newArrLogros.get(0)));
                 m.setCerrarClick(new View.OnClickListener() {
@@ -138,34 +157,34 @@ public class ListaDinamicas extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
                 //Post post = dataSnapshot.getValue(Post.class);
-                System.out.println("Se cargara la config del juego en listas---");
+                Log.i("meconecto:","Se cargara la config del juego en listas---");
                 if (dataSnapshot.exists()) {      //Ya existe la data del usuario
                     userGData = dataSnapshot.getValue(UserGameData.class);
                     firstViewModel.setCompletedActivs(userGData.getActividadesCompletadas());
                 }
-                System.out.println("---Se cargo la config del juego en listas");
+                Log.i("meconecto:","---Se cargo la config del juego en listas");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
                 //Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                System.out.println("Sucedió un error con la bd al cargar el usuario");
+                Log.i("meconecto:","Sucedió un error con la bd al cargar el usuario");
             }
         });
     }
 
     public void updateUserGameData(Long punteo,String activId){
-        System.out.println("actualizara el punteo del usuario");
+        Log.i("meconecto:","actualizara el punteo del usuario");
         userGData.sumarPuntos(punteo);
         Boolean cambio = userGData.evaluarNivel();
         if(cambio){
-            System.out.println("cambio de nivel");
+            Log.i("meconecto:","cambio de nivel");
             Toast.makeText(this.getBaseContext(), R.string.cambioNivel,Toast.LENGTH_LONG);
         }
         userGData.addCompleted(activId);
         GameDataFac.setUserGameData(mData,userId,userGData);
-        System.out.println("Actualizco el punto");
+        Log.i("meconecto:","Actualizco el punto");
     }
 
     private void mostrarLogro(){

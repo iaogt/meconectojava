@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_VideoWeb"
+            app:destination="@id/VideoWeb" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -23,6 +26,17 @@
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <argument android:name="objActividad" />
+    </fragment>
+    <fragment
+        android:id="@+id/VideoWeb"
+        android:name="com.meconecto.VideoWeb"
+        android:label="@string/video_web_label"
+        tools:layout="@layout/fragment_video_web">
+
+        <action
+            android:id="@+id/action_VideoWeb_to_FirstFragment"
             app:destination="@id/FirstFragment" />
         <argument android:name="objActividad" />
     </fragment>

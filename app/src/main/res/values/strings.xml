@@ -30,7 +30,7 @@
     <string name="txtLogro">Logro</string>
     <string name="txtVervideo">Ver video</string>
     <string name="txtFelicidades">¡Completaste la actividad!</string>
-    <string name="txtLosiento">Lo siento</string>
+    <string name="txtLosiento">Sigue intentando</string>
     <string name="txtNopuntos">No completaste esta actividad</string>
     <string name="meconecto">Meconecto</string>
     <string name="tools">Tools</string>
@@ -56,5 +56,8 @@
     <string name="txtGuiaPadres">Guía para padres</string>
     <string name="txtAmigaSvet">Comunícate con Tu Amiga SVET. Puedes contactarnos via whatsapp o messenger enviando la palabra AMIGA.</string>
     <string name="txtWhatsapp">Whatsapp Amiga SVET</string>
-    <string name="txtMessger">Messger Amiga SVET</string>
+    <string name="txtMessger">Messenger Amiga SVET</string>
+    <string name="mirarvideos">Aumenta tus conocimientos, mira esta serie de videos con consejos útiles para navegar en el ciber espacio</string>
+    <string name="btnOk">Ok</string>
+    <string name="video_web_label">VideoWeb</string>
 </resources>

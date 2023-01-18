@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
             userGData.setNomAvatar(nomAvatar.getNombre());
             userGData.setImgAvatar(nomAvatar.getImgAvatar());
             GameDataFac.setUserGameData(database,userId,userGData);
+
         }
     }
 
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
                     public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
                         // Get deep link from result (may be null if no link is found)
                         Uri deepLink = null;
-                        System.out.println("Venia de un deeplink");
+                        Log.i("meconecto:","Venia de un deeplink");
                         if (pendingDynamicLinkData != null) {
                             deepLink = pendingDynamicLinkData.getLink();
                             String path = deepLink.getPath();
@@ -175,22 +176,14 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 .addOnFailureListener(this, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        System.out.println("fallo en dynamiclink");
-                        System.out.println(e);
+                        Log.i("meconecto:","fallo en dynamiclink");
+                        Log.i("meconecto:",e.getMessage());
                     }
                 });
 
 
 
-        userFac = new MyUserFactory(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                System.out.println("cambio el status del usuario");
-                if(firebaseAuth.getCurrentUser() != null) {
-                    cargarUsuario();
-                }
-            }
-        });
+
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -219,12 +212,30 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
         homeViewModel.getAvatar().observe(this, new MainActivity.AvatarObserver());
 
 
+
+        this.addLoadProgress(10);
+        this.loadJSONConfig();
+    }
+
+    public void setUserValues(){
+        userFac = new MyUserFactory(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                Log.i("meconecto:","cambio el status del usuario");
+                if(firebaseAuth.getCurrentUser() != null) {
+                    cargarUsuario();
+                }
+            }
+        });
+
+        userId = userFac.getCurrentUser();
+
         if(userId!=null && userId.trim()!=""){   //Si hay usuario
-            System.out.println("Si hay usuario");
-            System.out.println(userId);
+            Log.i("meconecto:","Si hay usuario");
+            Log.i("meconecto:",userId);
             this.cargarUsuario();
         }else {
-            System.out.println("No hay usuario");
+            Log.i("meconecto:","No hay usuario");
             userFac.authUserAnonymous(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -232,13 +243,11 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
                         userId = userFac.getCurrentUser();
                         cargarUsuario();
                     } else {
-                        System.out.println("error al cargar usuario anonimo");
+                        Log.i("meconecto:","error al cargar usuario anonimo");
                     }
                 }
             });
         }
-        this.addLoadProgress(10);
-        this.loadJSONConfig();
     }
 
     public void navegarAmigos(String p){
@@ -253,26 +262,29 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
     }
 
     public void cargarUsuario(){
-        System.out.println("cargara usuario");
-        System.out.println(userId);
+        Log.i("meconecto:","cargara usuario");
+        Log.i("meconecto:",userId);
         if(userId!=null) {
             GameDataFac.cargaDataUsuario(database,userId, new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     // Get Post object and use the values to update the UI
                     //Post post = dataSnapshot.getValue(Post.class);
-                    System.out.println("Se cargara la config---");
+                    Log.i("meconecto:","Se cargara la config---");
                     if (dataSnapshot.exists()) {      //Ya existe la data del usuario
                         userGData = dataSnapshot.getValue(UserGameData.class);
+                        System.out.println("snapshot:");
+                        System.out.println(userGData);
                         completedActivs = userGData.getActividadesCompletadas();
                     } else {
+                        Log.i("meconect:","no hay snapshot");
                         userGData = GameDataFac.emptyGame();
                         userGData.setHerramientas(config.getTools());
                         GameDataFac.setUserGameData(database,userId, userGData);
                     }
                     addLoadProgress(25);
                     refrescaHome();
-                    System.out.println("---Se cargo la config");
+                    Log.i("meconecto:","---Se cargo la config");
                     cargoUserData = true;
                     quitarCargador();
                     // ..
@@ -282,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 public void onCancelled(DatabaseError databaseError) {
                     // Getting Post failed, log a message
                     //Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                    System.out.println("Sucedió un error con la bd al cargar el usuario");
+                    Log.i("meconecto:","Sucedió un error con la bd al cargar el usuario");
                 }
             });
         }
@@ -305,8 +317,8 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
         chooseLevel();
         homeViewModel.setmText(userGData);
         homeViewModel.setUserId(userId);
-        System.out.println("Actualiza punteo:");
-        System.out.println(userGData.punteo.toString());
+        Log.i("meconecto:","Actualiza punteo:");
+        Log.i("meconecto:",userGData.punteo.toString());
     }
 
     public void enviarAListado(View view){
@@ -340,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
     }
 
     public void loadJSONConfig(){
-        System.out.println("cargara el JSON");
+        Log.i("meconecto:","cargara el JSON");
         // [START post_value_event_listener]
         ConfigFactory.loadConfiguration(database,new ValueEventListener() {
             @Override
@@ -351,6 +363,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 cargoConfig=true;
                 addLoadProgress(25);
                 downloadActivities();
+                setUserValues();
                 // ..
             }
 
@@ -360,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
                 //Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-                System.out.println("Sucedió un error con la bd");
+                Log.i("meconecto:","Sucedió un error con la bd");
             }
         });
 
@@ -372,6 +385,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
             cargador.setVisibility(View.GONE);
             if(localPrefs.getBoolean("firstrun",true)) {
                 muestraVideo = true;
+                mpBack.stop();
 
                 capaVideo.setVisibility(View.VISIBLE);
                 objVideo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -420,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
             if(al.size()>0)
                 downloadAndSave(al);
         }catch(Exception e){
-            System.out.println("Error al abrir el archivo");
+            Log.i("meconecto:","Error al abrir el archivo");
         }
     }
 
@@ -433,8 +447,8 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
                 try {
                     // Create a URL for the desired page
-                    System.out.println("url:");
-                    System.out.println(strUrl);
+                    Log.i("meconecto:","url:");
+                    Log.i("meconecto:",strUrl);
                     if(!strUrl.isEmpty()) {
                         URL url = new URL(strUrl); //My text file location
                         //First open the connection
@@ -458,8 +472,8 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
                     }
 
                 } catch (Exception e) {
-                    System.out.println("Error al grabar archivos");
-                    System.out.println(e);
+                    Log.i("meconecto:","Error al grabar archivos");
+                    Log.i("meconecto:",e.getMessage());
                 }
 
                 //since we are in background thread, to post results we have to go back to ui thread. do the following for that
@@ -491,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
         // Check if user is signed in (non-null) and update UI accordingly.
         //updateUI(currentUser);
         //restartSound();
-        userId = userFac.getCurrentUser();
+        //userId = userFac.getCurrentUser();
     }
 
     @Override

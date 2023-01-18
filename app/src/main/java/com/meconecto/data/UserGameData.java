@@ -33,7 +33,7 @@ public class UserGameData {
         nivel="nivel1";
         actividadesCompletadas="";
         avatar = "ana";
-        nombreavatar="";
+        nombreavatar="Ana";
     }
 
     public String getAvatar(){
@@ -117,6 +117,9 @@ public class UserGameData {
         this.actividadesCompletadas = c;
     }
 
+    /**
+     * La primer actividad
+     * */
     public boolean checkLogro1(){
         boolean result=false;
         if(punteo>0 && logros.length()==0){
@@ -125,6 +128,9 @@ public class UserGameData {
         return result;
     }
 
+    /*
+    * Todas completadas
+    * */
     public boolean checkLogro2(ArrayList<String> idsActivs){
         boolean result=true;
         for(int i= 0;i<idsActivs.size();i++){
@@ -164,6 +170,10 @@ public class UserGameData {
         logro1.put("nombre","Kinder");
         logro1.put("imagen", String.valueOf(R.drawable.insignia1));
         collLogros.put("logro1",logro1);
+        HashMap<String,String> logro2 = new HashMap<>();
+        logro2.put("nombre","Kinder");
+        logro2.put("imagen", String.valueOf(R.drawable.insignia2));
+        collLogros.put("logro2",logro2);
         return collLogros.get(nomLogro);
     }
 

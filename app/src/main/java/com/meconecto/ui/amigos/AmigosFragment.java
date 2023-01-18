@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class AmigosFragment extends Fragment {
     class AmigosObserver implements Observer {
         @Override
         public void onChanged(Object o) {
-            System.out.println("Si se disparó amigoobserver");
+            Log.i("meconecto:","Si se disparó amigoobserver");
             uGD = (UserGameData)o;
             makeFriendsList();
         }
@@ -107,7 +108,7 @@ public class AmigosFragment extends Fragment {
         });
 
         View root = binding.getRoot();
-        System.out.println("Estara escuchando el userGData");
+        Log.i("meconecto:","Estara escuchando el userGData");
         homeModel.getuserGData().observe(getViewLifecycleOwner(), new AmigosObserver());
         homeModel.getUserId().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -151,7 +152,7 @@ public class AmigosFragment extends Fragment {
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
-                    System.out.println("Sucedió un error con la bd al cargar el usuario");
+                    Log.i("meconecto:","Sucedió un error con la bd al cargar el usuario");
                 }
             });
         }
@@ -167,7 +168,7 @@ public class AmigosFragment extends Fragment {
     }
 
     public void refreshList(){
-        System.out.println("Refrescará lista");
+        Log.i("meconecto:","Refrescará lista");
         if(amigos.size()<=0){
             final TextView textView = binding.textView5;
             textView.setText(R.string.txtNoAmigos);
@@ -190,7 +191,7 @@ public class AmigosFragment extends Fragment {
                             // Short link created
                             Uri shortLink = task.getResult().getShortLink();
                             Uri flowchartLink = task.getResult().getPreviewLink();
-                            System.out.println(shortLink);
+                            Log.i("meconecto:",String.valueOf(shortLink));
                             LayoutInflater vista = requireActivity().getLayoutInflater();
                             View form = vista.inflate(R.layout.alert_shortlink,null);
                             EditText et = form.findViewById(R.id.textLink);
@@ -214,7 +215,7 @@ public class AmigosFragment extends Fragment {
                             });
                             bd.show();
                         } else {
-                            System.out.println(task.getException());
+                            Log.i("meconecto:",task.getException().getMessage());
                             Toast.makeText(requireActivity().getBaseContext(),R.string.errorDynamicLink, Toast.LENGTH_SHORT);
                         }
                     }

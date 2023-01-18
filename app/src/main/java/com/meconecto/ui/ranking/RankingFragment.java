@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,7 @@ public class RankingFragment extends Fragment {
         }
         catch (IOException e)
         {
-            System.out.println("Excepcion de archivo");
+            Log.i("meconecto:","Excepcion de archivo");
         }
         for(int i=0; i<files.length; i++)
         {
@@ -117,8 +118,8 @@ public class RankingFragment extends Fragment {
                 }
                 catch(Exception e)
                 {
-                    System.out.println("Error en la guia, no se pudo escribir el archivo");
-                    System.out.println(e.getMessage());
+                    Log.i("meconecto:","Error en la guia, no se pudo escribir el archivo");
+                    Log.i("meconecto:",e.getMessage());
                 }
             }
         }

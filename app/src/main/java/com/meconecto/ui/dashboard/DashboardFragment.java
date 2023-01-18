@@ -1,6 +1,7 @@
 package com.meconecto.ui.dashboard;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,14 +68,14 @@ public class DashboardFragment extends Fragment {
         lista.setAdapter(new LogrosAdapter(logros, new LogrosAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String a) {
-                System.out.println("Dio click a la fila "+a);
+                Log.i("meconecto:","Dio click a la fila "+a);
             }
         }));
 
         lista2.setAdapter(new LogrosAdapter(insignias, new LogrosAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String a) {
-                System.out.println("Dio click a la fila "+a);
+                Log.i("meconecto:","Dio click a la fila "+a);
             }
         }));
 

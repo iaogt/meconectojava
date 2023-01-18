@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +98,7 @@ public class SecondFragment extends Fragment {
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, SecondFragment.this.getClass().getSimpleName());
         bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, SecondFragment.this.getClass().getSimpleName());
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
+
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -127,6 +129,9 @@ public class SecondFragment extends Fragment {
     }
 
     private void loadUrl(){
+        Bundle bundle2 =new Bundle();
+        bundle2.putString("game_name",selectedActivity.getTitulo());
+        mFirebaseAnalytics.logEvent("open_game",bundle2);
         proxyWeb = new WebActivities(this.getChildFragmentManager(),selectedActivity,new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,16 +156,16 @@ public class SecondFragment extends Fragment {
             try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
                 String line = reader.readLine();
                 while (line != null) {
-                    System.out.println("fila leida");
+                    Log.i("meconecto:","fila leida");
                     stringBuilder.append(line).append('\n');
                     line = reader.readLine();
                 }
-                System.out.println("contenido del archivo:");
-                System.out.println(stringBuilder.toString());
+                Log.i("meconecto:","contenido del archivo:");
+                Log.i("meconecto:",stringBuilder.toString());
                 String baseUrl = "http://webymovil.com/";
                 myWebView.loadDataWithBaseURL(baseUrl,stringBuilder.toString(),"text/html",null,baseUrl);
             } catch (IOException e) {
-                System.out.println("Error al leer el archivo");
+                Log.i("meconecto:","Error al leer el archivo");
                 // Error occurred when opening raw file for reading.
             } finally {
                 String contents = stringBuilder.toString();
@@ -168,7 +173,7 @@ public class SecondFragment extends Fragment {
             //String path = "file:///"+Environment.DIRECTORY_DOWNLOADS+"/"+selectedActivity.getId()+"/miarchivo.txt";
             //myWebView.loadUrl(path);
         }catch(FileNotFoundException e){
-            System.out.println("no encuentra el archivo");
+            Log.i("meconecto:","no encuentra el archivo");
         }
     }
 

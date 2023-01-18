@@ -1,5 +1,7 @@
 package com.meconecto.data;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,10 +18,14 @@ public class GameDataFac {
     }
 
     public static void cargaDataUsuario(FirebaseDatabase database,String idUsuario,ValueEventListener postListener){
-        DatabaseReference myRef = database.getReference("usuarios/"+idUsuario);
+        Log.i("meconecto:","buscara el usuario:");
+        Log.i("meconecto:",idUsuario);
+        if(idUsuario!="") {
+            DatabaseReference myRef = database.getReference("usuarios/" + idUsuario);
 // [START post_value_event_listener]
-        myRef.addValueEventListener(postListener);
+            myRef.addValueEventListener(postListener);
         /*FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("meconecto/usuarios/"+);*/
+        }
     }
 }
