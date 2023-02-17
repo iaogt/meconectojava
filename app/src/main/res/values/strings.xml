@@ -22,7 +22,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="puntos">Puntos</string>
     <string name="txtDemo">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id facilisis lectus. Ut vel ipsum fringilla, sodales sem ac, laoreet magna. Maecenas augue nisl, imperdiet eu lacus sed, tempor faucibus lectus. Pellentesque vestibulum cursus venenatis. Duis justo nulla, condimentum consectetur sem eget, cursus molestie nisi. Aliquam mattis est id risus volutpat accumsan. Maecenas tincidunt nulla in hendrerit egestas. Aliquam erat volutpat. Integer vehicula gravida elementum.</string>
-    <string name="txtNoAmigos">No tienes amigos en tu lista</string>
+    <string name="txtNoAmigos">No tienes amigos en tu lista, presiona el botón + debajo para enviarles un link y que se conecten</string>
+    <string name="amigoExiste">Amigo ya existe</string>
     <string name="addAmigos">Agrega amigos</string>
     <string name="txtCopiar">Copiar</string>
     <string name="txtCerrar">Cerrar</string>
@@ -60,4 +61,5 @@
     <string name="mirarvideos">Aumenta tus conocimientos, mira esta serie de videos con consejos útiles para navegar en el ciber espacio</string>
     <string name="btnOk">Ok</string>
     <string name="video_web_label">VideoWeb</string>
+    <string name="txtInvitaamigos">Envía este link a tus amigos y después que lo usen apareceran en tu listado</string>
 </resources>

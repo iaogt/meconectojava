@@ -47,6 +47,7 @@ import com.meconecto.ui.home.HomeViewModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class AmigosFragment extends Fragment {
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -142,7 +143,7 @@ public class AmigosFragment extends Fragment {
                     arrAvatares.put("afro",R.drawable.afro1);
                     UserGameData userGData = dataSnapshot.getValue(UserGameData.class);
                     HashMap<String,String> ams = new HashMap<>();
-                    ams.put("nombre",arrAvatares.get(userGData.getNomAvatar()).toString());
+                    ams.put("nombre",userGData.getNomAvatar().toString());
                     ams.put("punteo","Punteo: "+userGData.getPunteo().toString());
                     ams.put("img",arrAvatares.get(userGData.getAvatar()).toString());
                     dAmigos.add(ams);
@@ -160,11 +161,16 @@ public class AmigosFragment extends Fragment {
     }
 
     public void cargarNuevo(){
-        uGD.addAmigo(nuevoAmigo);
-        makeFriendsList();
-        GameDataFac.setUserGameData(((MainActivity)getActivity()).getDB(),userId,uGD);
-        Toast toast = Toast.makeText(this.getContext(),R.string.nuevoAmigo,Toast.LENGTH_LONG);
-        toast.show();
+        if(!uGD.amigoExists(nuevoAmigo)) {
+            uGD.addAmigo(nuevoAmigo);
+            makeFriendsList();
+            GameDataFac.setUserGameData(((MainActivity) getActivity()).getDB(), userId, uGD);
+            Toast toast = Toast.makeText(this.getContext(), R.string.nuevoAmigo, Toast.LENGTH_LONG);
+            toast.show();
+        }else{
+            Toast toast = Toast.makeText(this.getContext(), R.string.amigoExiste, Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     public void refreshList(){
@@ -195,15 +201,18 @@ public class AmigosFragment extends Fragment {
                             LayoutInflater vista = requireActivity().getLayoutInflater();
                             View form = vista.inflate(R.layout.alert_shortlink,null);
                             EditText et = form.findViewById(R.id.textLink);
-                            et.setText(shortLink.toString());
+                            Random r = new Random();
+                            int random = r.nextInt(100000);
+                            et.setText(shortLink.toString()+"?m="+String.valueOf(random));
                             AlertDialog.Builder bd = new AlertDialog.Builder(requireActivity());
                             bd.setTitle("Invita a tus amigos");
+                            bd.setMessage(R.string.txtInvitaamigos);
                             bd.setView(form)
                             .setPositiveButton(R.string.txtCopiar, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     ClipboardManager clipboard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                                    ClipData clip = ClipData.newPlainText("amigosLink", shortLink.toString());
+                                    ClipData clip = ClipData.newPlainText("amigosLink", et.getText());
                                     clipboard.setPrimaryClip(clip);
                                 }
                             })

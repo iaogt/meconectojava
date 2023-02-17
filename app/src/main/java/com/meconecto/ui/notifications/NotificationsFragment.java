@@ -40,7 +40,9 @@ public class NotificationsFragment extends Fragment {
         btnM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://messaging/UReportGuatemala"));
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setPackage("com.facebook.orca");
+                i.setData(Uri.parse("https://m.me/UReportGuatemala"));
                 startActivity(i);
             }
         });

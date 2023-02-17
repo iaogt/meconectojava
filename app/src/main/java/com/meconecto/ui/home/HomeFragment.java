@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(!click2) {
+               if(click2) {
                    ((MainActivity) requireActivity()).enviarAListado2(v);
                }else{
                    Toast t = Toast.makeText(getContext(),"Complete actividades del nivel anterior primero",Toast.LENGTH_LONG);
@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!click3) {
+                if(click3) {
                     ((MainActivity) requireActivity()).enviarAListado3(v);
                 }else{
                     Toast t = Toast.makeText(getContext(),"Complete actividades del nivel anterior primero",Toast.LENGTH_LONG);
@@ -141,15 +141,26 @@ public class HomeFragment extends Fragment {
         //labelPunteo = binding.textView2;
         homeViewModel.getuserGData().observe(getViewLifecycleOwner(), new PunteoObserver());
         homeViewModel.getAvatar().observe(getViewLifecycleOwner(), new AvatarObserver());
+        homeViewModel.getUserId().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                setUID(s);
+            }
+        });
 
         //updateHomeScreen();
         return root;
+    }
+
+    public void setUID(String strUid){
+        binding.userIDHash.setText("UID:"+strUid);
     }
 
 
     public void updateHomeScreen(){
         List arrAvatar;
         binding.textView13.setText(nomAvatar.getNombre());
+
         switch(nomAvatar.getImgAvatar()){
             case "susan":{
                 arrAvatar = UserGameData.getAvatar1();
@@ -196,16 +207,17 @@ public class HomeFragment extends Fragment {
         niveles.put("nivel4",3);
         niveles.put("nivel5",4);
         niveles.put("nivel6",5);
-        niveles.put("nivel7",6);
+        //niveles.put("nivel7",6);
         Log.i("meconecto:","wowow:");
         Log.i("meconecto:",nomAvatar.getImgAvatar());
+        Log.i("meconecto:",uGD.nivel);
         binding.imageView4.setImageResource((int)arrAvatar.get(niveles.get(uGD.nivel)));
         if(niveles.get(uGD.nivel)>=1){
             btn2.setAlpha(Float.parseFloat("1.0"));
             //btn2.setEnabled(true);
             click2=true;
         }
-        if(niveles.get(uGD.nivel)>=4){
+        if(niveles.get(uGD.nivel)>=3){
             btn3.setAlpha(Float.parseFloat("1.0"));
             //btn3.setEnabled(true);
             click3=true;

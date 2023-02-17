@@ -25,6 +25,7 @@ import com.meconecto.ui.home.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DashboardFragment extends Fragment {
@@ -36,6 +37,7 @@ public class DashboardFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     private ArrayList<IconLogro> logros;
     private ArrayList<IconLogro> insignias;
+    String nivel = "";
 
     HomeViewModel homeViewModel;
 
@@ -109,9 +111,44 @@ public class DashboardFragment extends Fragment {
     }
 
     public void updateLogros(){
+        nivel = uGD.getNivel();
+        HashMap<String,Integer> niveles = new HashMap<String,Integer>();
+        niveles.put("nivel1",0);
+        niveles.put("nivel2",1);
+        niveles.put("nivel3",2);
+        niveles.put("nivel4",3);
+        niveles.put("nivel5",4);
+        niveles.put("nivel6",5);
+        niveles.put("nivel7",6);
+        int _niv = niveles.get(nivel);
+        System.out.println("logrosnivel:");
+        System.out.println(nivel);
+        System.out.println(_niv);
+        logros.clear();
+        String s="i";
+        if((_niv>=1)) {
+            s="a";
+        }
+        logros.add(new IconLogro(s, String.valueOf(R.drawable.logro1)));
+        s="i";
+        if((_niv>=2)) {
+            s="a";
+        }
+        logros.add(new IconLogro(s, String.valueOf(R.drawable.logro2)));
+        s="i";
+        if((_niv>=3)) {
+            s="a";
+        }
+        logros.add(new IconLogro(s,String.valueOf(R.drawable.logro3)));
+        s="i";
+        if((_niv>=4)) {
+            s="a";
+        }
+        logros.add(new IconLogro(s,String.valueOf(R.drawable.logro4)));
+
         insignias.clear();
         String logros = uGD.getLogros();
-        String s = "i";
+        s = "i";
         if(logros.indexOf("logro1")>=0){
             s="a";
         }

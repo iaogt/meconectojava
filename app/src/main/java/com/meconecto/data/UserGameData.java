@@ -59,26 +59,23 @@ public class UserGameData {
     public Boolean evaluarNivel() {
         String n="";
         Boolean result = false;
-        if ((punteo > 0) && (punteo <= 30)) {
+        if ((punteo > 0) && (punteo <= 40)) {
             n = "nivel1";
         }
-        if ((punteo > 30) && (punteo <= 60)) {
+        if ((punteo > 40) && (punteo <= 70)) {
             n = "nivel2";
         }
-        if ((punteo > 60) && (punteo <= 90)) {
+        if ((punteo > 70) && (punteo <= 100)) {
             n = "nivel3";
         }
-        if ((punteo > 90) && (punteo <= 120)) {
+        if ((punteo > 100) && (punteo <= 140)) {
             n = "nivel4";
         }
-        if ((punteo > 120) && (punteo <= 150)) {
+        if ((punteo > 140) && (punteo <= 180)) {
             n = "nivel5";
         }
-        if ((punteo > 150) && (punteo <= 180)) {
+        if ((punteo > 180)) {
             n = "nivel6";
-        }
-        if ((punteo > 180) && (punteo <= 210)) {
-            n = "nivel7";
         }
         if (nivel != n) result = true;
         nivel=n;
@@ -91,6 +88,14 @@ public class UserGameData {
 
     public Map<String, String> getAmigos() {
         return amigos;
+    }
+
+    public Boolean amigoExists(String a){
+        Boolean encontro=false;
+        if(amigos.containsKey(a)){
+            encontro=true;
+        }
+        return encontro;
     }
 
     public void addAmigo(String a){
