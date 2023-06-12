@@ -52,6 +52,8 @@ public class SelectAvatar extends Fragment {
     private HomeViewModel homeViewModel;
     private FirebaseAnalytics mFirebaseAnalytics;
     private EditText txtNomAvatar;
+    private ImageButton bl;
+    private ImageButton br;
 
 
     public SelectAvatar() {
@@ -126,8 +128,8 @@ public class SelectAvatar extends Fragment {
         String x = getArguments().getString("avatarName");
         txtNomAvatar.setText(x);
         objImg = (ImageView) v.findViewById(R.id.imageView10);
-        ImageButton bl = (ImageButton) v.findViewById(R.id.imageButton7);
-        ImageButton br = (ImageButton) v.findViewById(R.id.imageButton8);
+        bl = (ImageButton) v.findViewById(R.id.imageButton7);
+        br = (ImageButton) v.findViewById(R.id.imageButton8);
         Button btn = (Button)v.findViewById(R.id.button4);
         bl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,15 +173,23 @@ public class SelectAvatar extends Fragment {
 
     public void izqImg(){
         if(numImg>0) {
+            bl.setEnabled(true);
             numImg = numImg - 1;
             updateImg();
+        }else{
+            bl.setEnabled(false);
+            br.setEnabled(true);
         }
     }
 
     public void derImg(){
         if(numImg<(arrAvatares.size()-1)) {
+            br.setEnabled(true);
             numImg = numImg + 1;
             updateImg();
+        }else{
+            br.setEnabled(false);
+            bl.setEnabled(true);
         }
     }
 

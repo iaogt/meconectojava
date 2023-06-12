@@ -11,8 +11,8 @@ android {
         applicationId "com.meconecto"
         minSdk 29
         targetSdk 32
-        versionCode 46
-        versionName "46"
+        versionCode 50
+        versionName "50"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

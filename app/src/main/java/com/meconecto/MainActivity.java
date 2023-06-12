@@ -351,6 +351,15 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
         startActivity(intent);
     }
 
+    public void enviarAListado4(View view){
+        mpBack.stop();
+        Intent intent = new Intent(view.getContext(), ListaDinamicas.class);
+        intent.putExtra(APP_CONFIG,config.getCategory("nuevacategoria"));
+        intent.putExtra(APP_USERID,userId);
+        intent.putExtra(APP_COMPLETED,completedActivs);
+        startActivity(intent);
+    }
+
     public void loadJSONConfig(){
         Log.i("meconecto:","cargara el JSON");
         // [START post_value_event_listener]

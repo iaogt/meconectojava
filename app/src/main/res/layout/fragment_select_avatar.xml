@@ -32,7 +32,7 @@
                 android:layout_gravity="clip_vertical|center_vertical"
                 android:contentDescription="@string/txtListAvatar"
                 android:scaleType="centerInside"
-                android:src="@drawable/arrowleft" />
+                android:src="@drawable/arrowleftactive" />
 
             <ImageView
                 android:id="@+id/imageView10"
